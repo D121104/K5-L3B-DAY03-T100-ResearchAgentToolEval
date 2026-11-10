@@ -5,7 +5,7 @@
 - Tên nhóm: T100
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY03-T100-ResearchAgentToolEval`
-- URL repo, nhánh nộp, commit chốt:
+- URL repo, nhánh nộp, commit chốt: [repo](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval) · nhánh `main` · commit [`22da5fd`](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval/commit/22da5fd) (cập nhật lại hash khi chốt nộp)
 
 ## Thành viên
 
