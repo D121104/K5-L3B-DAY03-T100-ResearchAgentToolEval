@@ -1,6 +1,5 @@
 # Báo cáo cá nhân — TranCanhHung-2A202603759
 
-Đổi tên file theo quy tắc `MSSV_HoTen.md` → nên đổi thành `2A202603759_TranCanhHung.md` trước khi nộp.
 
 ## 1. Thông tin thành viên
 
