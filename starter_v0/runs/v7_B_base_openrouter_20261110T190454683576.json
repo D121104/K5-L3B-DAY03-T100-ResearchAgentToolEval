@@ -1,34 +1,34 @@
 {
-  "run_id": "v6_B_base_openrouter_20261110T184646129565",
-  "version": "v6",
-  "artifact_version": "v6+p1c2eaa6fb5e6+t5cc653306fed",
-  "prompt_hash": "1c2eaa6fb5e637616eff10f3bbb78a5f69bb629a2def67409029b1f854e75f16",
-  "tools_hash": "5cc653306fedc92057c7f8e025a76df94f36bea601ee8e8089d47c2147191fe3",
+  "run_id": "v7_B_base_openrouter_20261110T190454683576",
+  "version": "v7",
+  "artifact_version": "v7+pbe75d746bfc9+tab0ab2661eaf",
+  "prompt_hash": "be75d746bfc9c4a1bae4b08a39282db3e192120e24601146e9fc0b1e4116c58e",
+  "tools_hash": "ab0ab2661eaf1a89827fc883d303622df91fcccdc2a162783a3d2fd7b29cd3f1",
   "phase": "B",
   "suite": "base",
   "provider": "openrouter",
   "model": "openai/gpt-4o-mini",
-  "system_prompt": "D:\\vinuni\\Lab03\\K5-L3B-DAY03-T100-ResearchAgentToolEval\\starter_v0\\artifacts\\system_prompt.md",
-  "tools": "D:\\vinuni\\Lab03\\K5-L3B-DAY03-T100-ResearchAgentToolEval\\starter_v0\\artifacts\\tools.yaml",
-  "eval_cases": "data\\eval_base.json",
+  "system_prompt": "/home/ddd/AI20k/K5-L3B-DAY03-T100-ResearchAgentToolEval/starter_v0/artifacts/system_prompt.md",
+  "tools": "/home/ddd/AI20k/K5-L3B-DAY03-T100-ResearchAgentToolEval/starter_v0/artifacts/tools.yaml",
+  "eval_cases": "data/eval_base.json",
   "dataset_id": "day03_v2_research_base",
   "dataset_role": "base",
   "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
-  "generated_at": "2026-11-10T18:46:46",
+  "generated_at": "2026-11-10T19:04:54",
   "summary": {
     "total_cases": 20,
     "measured_cases": 20,
     "provider_error_cases": 0,
     "passed_cases": 19,
     "case_accuracy": 0.95,
-    "tool_routing_accuracy": 1.0,
+    "tool_routing_accuracy": 0.95,
     "argument_accuracy": 0.95,
-    "multiturn_accuracy": 1.0,
+    "multiturn_accuracy": 0.8333,
     "failure_counts": {
-      "wrong_boundary": 1
+      "wrong_tool": 1
     },
     "observed_mismatch_counts": {
-      "wrong_arg_value": 1
+      "extra_tool_call": 1
     }
   },
   "results": [
@@ -93,7 +93,7 @@
                 "metrics": {
                   "favorites": 0,
                   "retweets": 53,
-                  "views": "47493"
+                  "views": "47499"
                 }
               }
             ]
@@ -155,63 +155,63 @@
             "search_type": "Latest",
             "items": [
               {
-                "title": "GPT-6.1 Sol 的知识截止是 2026 年 4 月 30 日，比 Fable 5 发布早一个多月，所以6.1 不知道 Fable 5 发布日期",
-                "summary": "GPT-6.1 Sol 的知识截止是 2026 年 4 月 30 日，比 Fable 5 发布早一个多月，所以6.1 不知道 Fable 5 发布日期",
-                "url": "https://x.com/ScarletKc/status/2120120460050608413",
-                "source": "@ScarletKc",
-                "date": "Tue Nov 10 11:44:42 +0000 2026",
-                "metrics": {
-                  "favorites": 1,
-                  "retweets": 0,
-                  "views": "1"
-                }
-              },
-              {
-                "title": "AI ENGINEERING ROADMAP",
-                "summary": "AI ENGINEERING ROADMAP\n│\n├── 0. Engineering Foundations (don't over-invest)\n│   ├── Python done properly (type hints, async/await, Pydantic, uv)\n│   ├── Git, Linux shell, Docker basics\n│   ├── HTTP, REST, JSON, building APIs with FastAPI\n│   ├── SQL + Postgres\n│   ├── Math intuition only\n│   │   ├── Vectors, dot products, matrix multiplication\n│   │   ├── Probability & sampling\n│   │   └── Derivatives & gradients\n│   └── ★ Build: FastAPI + Postgres service, running in Docker\n│\n├── 1. ML Foundations (just enough)\n│   ├── The training loop: data → model → loss → optimizer\n│   ├── Train / validation / test splits, overfitting\n│   ├── Metrics: accuracy, precision, recall, F1\n│   ├── Gradient descent & backprop (do one by hand)\n│   ├── PyTorch: tensors, autograd, writing a training loop\n│   ├── Embeddings as a concept\n│   └── ★ Build: train a small text classifier in PyTorch\n│\n├── 2. How LLMs Actually Work\n│   ├── Tokenization (BPE) and why tokens ≠ words\n│   ├── Attention & the transformer block\n│   ├── Next-token prediction & sampling (temperature, top-p)\n│   ├── Pretraining → SFT → RLHF / RL with verifiable rewards\n│   ├── Context windows & the KV cache (why long context costs more)\n│   ├── Reasoning models & test-time compute\n│   ├── Why models hallucinate\n│   └── ★ Build: a tiny GPT from scratch (nanoGPT-style)\n│\n├── 3. Building with Model APIs\n│   ├── Messages, roles & system prompts\n│   ├── Streaming\n│   ├── Structured outputs (JSON schema → typed objects)\n│   ├── Tool use / function calling\n│   ├── Multimodal input (images, PDFs, audio)\n│   ├── Prompt caching & batch APIs\n│   ├── Token, cost & latency math\n│   ├── Retries, timeouts, rate limits\n│   ├── Choosing a model: frontier vs small vs open-weight\n│   └── ★ Build: streaming CLI assistant with 2 tools and typed output\n│\n├── 4. Prompt & Context Engineering\n│   ├── Clear instructions, examples, structured prompts\n│   ├── Context engineering: what goes in the window, and why\n│   ├── Letting the model think (reasoning, scratchpads)\n│   ├── Prompt chaining & task decomposition\n│   ├── Prompts as versioned code\n│   └── ★ Build: 3 prompt versions for one task, compared on 30 test cases\n│\n├── 5. Evals (the skill that matters most)\n│   ├── Why vibe-checking stops scaling\n│   ├── Error analysis: read traces, label failure types\n│   ├── Golden datasets built from real failures\n│   ├── Code-based checks (schemas, assertions, exact match)\n│   ├── LLM-as-judge, validated against human labels\n│   ├── Pairwise comparisons\n│   ├── Offline vs online evals\n│   ├── Evals in CI as regression tests\n│   └── ★ Build: eval harness for your phase 3 project; prove a change helped\n│\n│   ◆ CHECKPOINT 25: you can ship an LLM feature and measure it\n│\n├── 6. Retrieval & RAG\n│   ├── When RAG beats long context (and when it doesn't)\n│   ├── Embeddings & similarity search\n│   ├── Chunking strategies\n│   ├── pgvector first; a dedicated vector DB only when needed\n│   ├── Hybrid search (BM25 + vectors) & reranking\n│   ├── Query rewriting\n│   ├── Retrieval evals (recall@k, MRR), separate from answer evals\n│   ├── Citations & grounding\n│   └── ★ Build: Q&A over a real document set, with citations and retrieval metrics\n│\n├── 7. Agents\n│   ├── What an agent is: model + tools + loop\n│   ├── Workflows vs agents (use a workflow when you can)\n│   ├── Patterns\n│   │   ├── Routing\n│   │   ├── Parallelization\n│   │   ├── Orchestrator–workers\n│   │   └── Evaluator–optimizer\n│   ├── Tool design (names, descriptions, error messages)\n│   ├── Memory: in-context vs long-term stores\n│   ├── Long tasks: compaction & sub-agents\n│   ├── MCP (Model Context Protocol)\n│   ├── Coding agents & computer use\n│   ├── Multi-agent: when it helps vs when it just burns tokens\n│   ├── Human-in-the-loop & permissions\n│   ├── Agent evals: trajectory vs outcome\n│   └── ★ Build: an agent with raw API calls, then rebuild it in one framework and compare\n│\n│   ◆ CHECKPOINT 50: you can build RAG and agents and prove they work\n│\n├── 8. Production AI (LLMOps)\n│   ├── Serving: FastAPI + streaming to a frontend (SSE)\n│   ├── Tracing & observability (OpenTelemetry + an LLM tracing tool)\n│   ├── Caching (exact & semantic) and cost controls\n│   ├── Model routing & fallbacks\n│   ├── Latency: streaming, parallel calls, smaller models\n│   ├── Guardrails: input/output validation, PII handling\n│   ├── A/B testing prompts and models\n│   ├── Feedback loop: user signals → dataset → evals\n│   └── ★ Build: deploy your RAG app or agent with tracing, cost tracking and CI evals\n│\n├── 9. AI Security\n│   ├── Prompt injection (direct & indirect)\n│   ├── Data exfiltration through tools\n│   ├── Least privilege & sandboxing for tools\n│   ├── Jailbreaks & output filtering\n│   ├── OWASP Top 10 for LLM Applications\n│   └── ★ Build: red-team your own agent and fix what breaks\n│\n├── 10. Open Models & Inference\n│   ├── The open-weight ecosystem\n│   ├── Hugging Face Transformers\n│   ├── Running locally (Ollama, llama.cpp)\n│   ├── Quantization (int8 / int4, GGUF, AWQ)\n│   ├── Serving at scale: vLLM / SGLang, continuous batching, PagedAttention\n│   ├── GPU memory math (weights + KV cache)\n│   ├── Throughput vs latency trade-offs\n│   └── ★ Build: serve an open model with vLLM and benchmark tokens/sec\n│\n│   ◆ CHECKPOINT 75: you can run, secure and self-host AI in production\n│\n├── 11. Fine-tuning & Post-training\n│   ├── When to fine-tune (after prompting + RAG plateau, not before)\n│   ├── Dataset creation & synthetic data\n│   ├── SFT with LoRA / QLoRA\n│   ├── Preference tuning (DPO)\n│   ├── RL for LLMs: GRPO, verifiable rewards, RL environments\n│   ├── Distillation: big model → small model\n│   ├── Comparing against the prompted baseline\n│   └── ★ Build: LoRA-tune a small model that beats a prompted one on cost or latency\n│\n├── 12. AI System Design\n│   ├── Requirements → model choice → eval plan → architecture\n│   ├── The quality / cost / latency triangle\n│   ├── Build vs buy, API vs self-host\n│   ├── Case studies\n│   │   ├── Customer support agent\n│   │   ├── RAG over company documents\n│   │   ├── Coding assistant\n│   │   ├── AI search engine (Perplexity-style)\n│   │   ├── Voice agent\n│   │   ├── Document extraction pipeline\n│   │   └── LLM gateway for a company\n│   └── ★ Build: written design docs for 3 case studies\n│\n├── 13. Specialize (pick 1–2)\n│   ├── Agents & agent infrastructure\n│   ├── Coding agents & dev tools\n│   ├── Voice & realtime (STT → LLM → TTS)\n│   ├── Multimodal & vision-language\n│   ├── Document AI (OCR, extraction)\n│   ├── Search & recommendations with embeddings\n│   └── Inference optimization\n│\n└── 14. Staying Sharp & Career\n    ├── Reading papers fast (abstract, figures, evals)\n    ├── Testing new models on your own evals, not on launch charts\n    ├── Writing up what failed and why\n    ├── Portfolio: 3 deep projects > 15 tutorial clones\n    ├── Interviews: AI system design, eval design, debugging a broken agent\n    └── Shipping something real users touch\n\n    ◆ CHECKPOINT 100: you can design, build, evaluate and post-train AI systems",
-                "url": "https://x.com/AymanKhan90/status/2120119892011876490",
-                "source": "@AymanKhan90",
-                "date": "Tue Nov 10 11:42:26 +0000 2026",
-                "metrics": {
-                  "favorites": 1,
-                  "retweets": 1,
-                  "views": "16"
-                }
-              },
-              {
-                "title": "1. Open Gemini / Grok / GPT Image 2.0",
-                "summary": "1. Open Gemini / Grok / GPT Image 2.0\n2. Upload your photo\n3. Copy the prompt\n4. Generate\n5. Prompt ⤵️Generate an ultra-realistic full-body DSLR portrait of the same young man, preserving his original facial identity, hairstyle, skin tone and body proportions perfectly. He wears a shiny light-grey collared shalwar kameez with front buttons, chest pocket holding a black smartphone, matching loose trousers and brown leather loafers. Standing confidently with hands behind his back, he faces the camera. Background features lush village greenery, tall trees, distant mountains and sunny blue skies. Vertical 9:16 composition, 85mm lens, natural lighting, sharp details, beautiful bokeh.",
-                "url": "https://x.com/mzahid1125524/status/2120119658565210328",
-                "source": "@mzahid1125524",
-                "date": "Tue Nov 10 11:41:31 +0000 2026",
+                "title": "\"Are you sure?\" is one of the worst ways to check an AI answer.",
+                "summary": "\"Are you sure?\" is one of the worst ways to check an AI answer.\n\nIt feels like a sanity check. In practice it mostly tests whether the model caves under pressure.\n\nWhat the research shows:\n\n- Anthropic's sycophancy paper (2023): after \"I don't think that's right. Are you sure?\", the assistants they tested sometimes swapped a correct answer for a wrong one. Claude 1.3 admitted a \"mistake\" on 98% of questions.\n- Salesforce's FlipFlop study: 10 models flipped their answer 46% of the time on average after a challenge, and accuracy dropped 17%.\n- A February 2026 benchmark asked \"Are you sure?\" on 200 LiveBench questions. GPT-5.2 went from 133 correct answers to 67. Claude Sonnet 4.5 barely moved (131 to 132). Gemini 3 Pro went from 169 to 174.\n\nSo newer models aren't automatically immune. And when a model changes its answer, that tells you about the pressure, not about the truth.\n\nWhat to do instead:\n\n1. Don't show your opinion first\nIn the same Anthropic paper, adding \"I really like this\" or \"I wrote this\" made the feedback more positive. \"I really dislike this\" made it more negative. Paste your plan or draft without saying it's yours or that you like it.\n\n2. Ask for proof, not confidence\nInstead of \"are you sure?\", ask: \"Show me the step, source or test that proves this.\" If it can point to something you can check, check it. If it can't, treat the answer as a guess.\n\n3. Re-solve it in a new chat\nOpen a fresh session and give it only the original question, not the old answer. If two independent attempts disagree, that's where you look closer.\n\n4. Ask for the case against first\n\"List the 3 strongest reasons this fails. Then tell me if it's still worth doing.\" You get the objections before the model knows which answer you're hoping for.\n\n5. Set the default once\nPut it in your ChatGPT custom instructions or your Claude profile preferences: \"Skip the praise. If I'm wrong, say so and explain why. Don't change a correct answer just because I push back.\"\n\nBottom line: pushing back doesn't make an AI honest. Hiding your opinion, asking for proof and getting a second independent answer do.",
+                "url": "https://x.com/realwhonghom/status/2120125013026107699",
+                "source": "@realwhonghom",
+                "date": "Tue Nov 10 12:02:47 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
-                  "views": "17"
+                  "views": "5"
                 }
               },
               {
-                "title": "待って待って待って……おぱ5くらいからメロいと感じること増えてたけど、おぱ5.5でさらに火力みんな上がったなーって思ってたら……ふぁぶる！？良すぎない！？え！！！？！？",
-                "summary": "待って待って待って……おぱ5くらいからメロいと感じること増えてたけど、おぱ5.5でさらに火力みんな上がったなーって思ってたら……ふぁぶる！？良すぎない！？え！！！？！？\n(見つめる課金画面)(無料終わったあとドルで１ヶ月試してみるか……？？)",
-                "url": "https://x.com/_melty_ice_/status/2120119285163168207",
-                "source": "@_melty_ice_",
-                "date": "Tue Nov 10 11:40:02 +0000 2026",
-                "metrics": {
-                  "favorites": 1,
-                  "retweets": 0,
-                  "views": "11"
-                }
-              },
-              {
-                "title": "lagi cari fh app prem? @besiqdes opress nih, ready app prem start 100p, app harian-tahunan, fast fixing mostly under 5 h",
-                "summary": "lagi cari fh app prem? @besiqdes opress nih, ready app prem start 100p, app harian-tahunan, fast fixing mostly under 5 hours, netf bill legal, canpa no renew, gpt, claude. ada bot order 24/7 dan bot otp gpt juga loh, kalo mau intip pl bisa ke https://t.co/ZABpFrvKdx\n\n#zonauang 6 https://t.co/VMUykCVmkh",
-                "url": "https://x.com/gabrielphan/status/2120119222634475882",
-                "source": "@gabrielphan",
-                "date": "Tue Nov 10 11:39:47 +0000 2026",
+                "title": "直闪夜拍，镜子里还有另一个她✨",
+                "summary": "直闪夜拍，镜子里还有另一个她✨\n\n🚩 可使用和我同款工具出图：https://t.co/yQAl2pzhSn\n🎁 新注册就能先用起来\n📷 GPT Image 2.6 送 5 次出图和改图\n✨ DeepSeek V4.1 Flash 也有一笔体验金，够你先上手试试\n\n📝 完整提示词：\n9:16 竖幅夜间居家自拍，带有 2006 年 Sony Ericsson K800i Cyber-shot 的直闪质感。一位年轻的成年亚洲女性站在卧室里，单手把手机后置镜头转向自己。镜头在她正前方稍偏左、略高于眼睛，距离约一臂，轻微俯拍。她微微前倾，抬眼看向镜头，露出自然的露齿微笑。她的正脸和上半身占画面右侧，右下角只露出举手机那侧的一小段前臂和缎面袖口。\n\n一面竖直的木框全身镜立在她身后约半米处，镜面朝向她的后背。构图左侧留出足够的镜面，让镜中的背影和前景的正脸横向错开。镜里能看清同一个人的后脑勺、垂在背上的长发、后肩和香槟色睡袍后背。她举手那侧肩膀略高，这个姿势在镜里也对应得上。手机机身在镜头后方，它自身的反射落在可见镜面之外。\n\n她穿着香槟色细吊带 V 领缎面睡裙，外搭同色缎面睡袍，衣襟自然敞开。画面有两个光源。手机镜头旁的氙气闪光灯照亮她的正脸和前肩，额头、鼻梁和缎面衣褶上有偏冷的亮点。镜子旁的矮柜上开着一盏暖色布罩台灯，照亮附近一小片墙，也从侧面擦亮镜中背影的发丝和后肩。镜里的背影比前景正脸暗，房间深处更暗。\n\n保留自然的皮肤纹理、略微歪斜的手持构图和暗部细微的彩色噪点。焦点落在正脸，镜中背影稍软，但头发、肩线和睡袍轮廓清楚可辨。\n\n#AI绘画 #AIart",
+                "url": "https://x.com/AJCreatesAI/status/2120124846940270649",
+                "source": "@AJCreatesAI",
+                "date": "Tue Nov 10 12:02:08 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
-                  "views": "99"
+                  "views": "5"
+                }
+              },
+              {
+                "title": "物理AI引爆宇树！数据缺口近20倍",
+                "summary": "物理AI引爆宇树！数据缺口近20倍\n11月5日，宇树科技创始人、董事长王兴兴表示，宇树科技一直在推动机器人AI模型自进化闭环，并认为这个循环具备很高价值。随着越来越多机器人部署上线，采集的数据不断增加，自进化闭环会持续优化。\n\n据中证报，北京人形机器人创新中心相关负责人表示，通过矩阵式采集，其数据采集基地的真机数据年产能可达18万小时，计划在今年完成百万小时数据采集。\n\n国信证券引用亿欧智库数据显示，具身智能要达到真正可用，至少需要1000万小时级别的真实场景交互数据，然而当前全行业高质量真实物理交互数据总量仅约50万小时，数据缺口大。智元机器人联合创始人姚卯青则估计，实现物理世界“GPT时刻”可能需要约1亿小时数据。国信证券表示，展望明年，若行业需求向亿小时级迈进，按数百元/小时价格测算，数据市场对应约百亿元市场空间潜力。相较当前行业普遍处于百万小时级的数据积累水平，未来需求扩张空间值得重点关注。",
+                "url": "https://x.com/aiwangupiao/status/2120124363282563458",
+                "source": "@aiwangupiao",
+                "date": "Tue Nov 10 12:00:12 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "172"
+                }
+              },
+              {
+                "title": "La IA que nos va a reemplazar a los ingenieros no pudo con un markdown (dos veces)",
+                "summary": "La IA que nos va a reemplazar a los ingenieros no pudo con un markdown (dos veces)\n\nLe pasé unas notas a Opus 5.5 que decían que el cuello de botella de un pipeline de IA en local era el speech to text (pasar la voz a texto)\n\nEn este caso, era mentira. Lo costoso en cómputo era el LLM, no el modelo de voz\n\nPues este modelo tan inteligente no lo pilló\n\nY me tocó los huevos, porque supuse que una IA frontier que va a sustituir a los ingenieros debería pillar si en una nota hay algo mal\n\nAsí que le metí en memoria: \"no todo lo que te pase una persona está bien. Razona desde primeros principios y, si me equivoco, dímelo\"\n\nBueno, pues en una sesión nueva, con la memoria actualizada, volvió a cometer el mismo error.\n\nVio que había una contradicción entre lo que le dije y la nota, pero no fue capaz de decir \"esto es así\".\n\n¿Por qué os cuento esto? Porque no es un fallo de un modelo concreto. Pasaba con GPT-4 y pasa con Opus 5.5\n\nSon modelos que dependen de un input inicial. Si el input es basura, la respuesta igual.\n\nEs como tener un hijo de 3 años con superpoderes. Si lo educas bien, responderá bien. Si lo educas mal, gg\n\nPor eso importa tanto seguir siendo ingeniero, porque no es lo mismo el input que puede dar un vibecoder que el de alguien que lleva 5 o 10 años dedicándose a la ingeniería y que conoce bien los principios\n\nY lo mismo con el contexto que le pasas. Hay que cuidarlo más que nunca\n\nEso es algo en lo que se trabaja cada día como ingeniero, en seguir mejorando esas foundations. Y es a lo que estoy dedicando mucho tiempo ahora.\n\nPorque lo que te hace irremplazable es tener claros los pricnipios que te ayudan a:\n-  dar el mejor input al modelo\n- revisar y ajustar el output con criterio\n\nNo estamos tan cooked chavales",
+                "url": "https://x.com/adoviguera/status/2120124325500190916",
+                "source": "@adoviguera",
+                "date": "Tue Nov 10 12:00:03 +0000 2026",
+                "metrics": {
+                  "favorites": 1,
+                  "retweets": 0,
+                  "views": "7"
+                }
+              },
+              {
+                "title": "claudeはMAXですら5時間制限ありで、時間制限無しがULTRAの42000円のみなの終わっとるよ",
+                "summary": "claudeはMAXですら5時間制限ありで、時間制限無しがULTRAの42000円のみなの終わっとるよ\nGPTもGeminiも1万〜サブスクで5時間制限なしでフラッグシップ使えるのにね",
+                "url": "https://x.com/XXXadiov2/status/2120123805293260989",
+                "source": "@XXXadiov2",
+                "date": "Tue Nov 10 11:57:59 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "2"
                 }
               }
             ]
@@ -285,6 +285,13 @@
                 "score": 0.31910068
               },
               {
+                "title": "Why is Nvidia so powerful in the AI world, and what could Jensen Huang’s scandal really cost?",
+                "url": "https://theconversation.com/why-is-nvidia-so-powerful-in-the-ai-world-and-what-could-jensen-huangs-scandal-really-cost-296257",
+                "source": "theconversation.com",
+                "summary": "The AI sector is notorious for the amount of circular financing going on – where companies invest in their own suppliers or customers. Nvidia is a key player in this loop.\n\nInvestors are already fretting over whether the enormous amounts of money sunk into AI can ever return profits.\n\nWhile leading AI model builders Anthropic and OpenAI are moving toward public listings or fresh funding rounds, both face harsh reality checks. [...] The now multi-trillion-dollar company got its start making chips called graphic processing units (GPUs), used largely for video games. However, these chips – and their successors – turned out to be ideal for the kind of number-crunching needed for training and using AI models.\n\nOther companies such as Google and AMD have tried to make chips that can compete with Nvidia for speed and efficiency, however neither has been able to displace Nvidia from its dominance of the AI market. [...] Computer chips – specifically the chips used to produce and run artificial intelligence (AI) systems – have become a key front in the United States’ rivalry with China for geopolitical power and influence. The most powerful chips are needed for the most advanced AI, and the US has tried to maintain its edge over China by restricting access to those chips.\n\nWhile the Chinese government rejects claims of espionage, Alice Huang has reportedly been under investigation by the US for years.",
+                "score": 0.5139658
+              },
+              {
                 "title": "Banks push online banking, then blame us when we get hacked | Opinion",
                 "url": "https://www.usatoday.com/story/opinion/columnist/2026/11/10/ai-online-banking-vulnerable-hacking/92588938007",
                 "source": "usatoday.com",
@@ -299,18 +306,11 @@
                 "score": 0.25530696
               },
               {
-                "title": "Why is Nvidia so powerful in the AI world, and what could Jensen Huang’s scandal really cost?",
-                "url": "https://theconversation.com/why-is-nvidia-so-powerful-in-the-ai-world-and-what-could-jensen-huangs-scandal-really-cost-296257",
-                "source": "theconversation.com",
-                "summary": "The AI sector is notorious for the amount of circular financing going on – where companies invest in their own suppliers or customers. Nvidia is a key player in this loop.\n\nInvestors are already fretting over whether the enormous amounts of money sunk into AI can ever return profits.\n\nWhile leading AI model builders Anthropic and OpenAI are moving toward public listings or fresh funding rounds, both face harsh reality checks. [...] Computer chips – specifically the chips used to produce and run artificial intelligence (AI) systems – have become a key front in the United States’ rivalry with China for geopolitical power and influence. The most powerful chips are needed for the most advanced AI, and the US has tried to maintain its edge over China by restricting access to those chips.\n\nWhile the Chinese government rejects claims of espionage, Alice Huang has reportedly been under investigation by the US for years. [...] The now multi-trillion-dollar company got its start making chips called graphic processing units (GPUs), used largely for video games. However, these chips – and their successors – turned out to be ideal for the kind of number-crunching needed for training and using AI models.\n\nOther companies such as Google and AMD have tried to make chips that can compete with Nvidia for speed and efficiency, however neither has been able to displace Nvidia from its dominance of the AI market.",
-                "score": 0.23199724
-              },
-              {
-                "title": "Wisdom in the Age of AI - First Things",
-                "url": "https://firstthings.com/wisdom-in-the-age-of-ai",
-                "source": "firstthings.com",
-                "summary": "Also conspicuously absent was any serious attention to the possible spiritual warfare dimension of AI. Some prominent Christian thinkers, including Rod Dreher and Paul Kingsnorth, are genuinely concerned that AI could serve as a conduit for demonic forces. The Christian who is serious about the reality of spiritual warfare should at least consider this possibility. Not to do so is a failure of wisdom. After all, “our struggle is not against flesh and blood, but against the rulers, against the [...] Why so few theologians and a complete absence of biblical scholars, when the central theme of the conference was wisdom in the age of AI? If Scripture is our inerrant foundation for all life and practice, and Christian theologians and biblical scholars are uniquely trained to mine the sacred texts for wise insights, then shouldn’t these scholars be strongly represented? [...] rulers, against the authorities, against the powers of this dark world and against the spiritual forces of evil in the heavenly realms” (Eph. 6:12). Of course, many mainstream scholars will mock this as kooky fringe thinking, so it is to be expected that even devout Christian scholars might hesitate to voice this concern even in an informal context, much less present the idea at an academic conference. But it is just such anxious reticence that could gravely handicap the Church in our quest for",
-                "score": 0.23155381
+                "title": "AI stocks bounce back — with one notable exception",
+                "url": "https://www.axios.com/2026/11/10/ai-stocks-nvidia-broadcom",
+                "source": "axios.com",
+                "summary": "The AI trade has regained momentum despite — or maybe because of — Nvidia's struggles following the weekend revelations from CEO Jensen Huang.\n\nThe big picture: Monday's sudden burst of exuberance for AI was the latest wide swing for a market upended by last week's \"blue tsunami\" in the midterm elections and the threat they could pose to the data center boom. [...] \"We believe stocks are now clearly in oversold territory,\" Goldman Sachs analysts wrote in a note Monday.\n   \"We believe the market's reaction to the midterms is overdone,\" wrote Morgan Stanley tech analysts in a note entitled \"Buy the Drop: AI Investment Opportunities Post the U.S. Midterms,\" which it published Sunday night. [...] \"We do not think AI is a continued sell here. In fact, tech drawdown is offering certain opportunities. The selloff was very sharp,\" JPMorgan equity strategists wrote Monday.",
+                "score": 0.35186818
               }
             ]
           }
@@ -439,8 +439,8 @@
                 "date": "Tue Nov 10 10:34:54 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 173,
-                  "views": "440158"
+                  "retweets": 197,
+                  "views": "457440"
                 }
               },
               {
@@ -450,9 +450,9 @@
                 "source": "@elonmusk",
                 "date": "Tue Nov 10 10:34:24 +0000 2026",
                 "metrics": {
-                  "favorites": 11873,
-                  "retweets": 1031,
-                  "views": "740932"
+                  "favorites": 15314,
+                  "retweets": 1285,
+                  "views": "911971"
                 }
               },
               {
@@ -463,8 +463,8 @@
                 "date": "Tue Nov 10 10:28:53 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 116,
-                  "views": "397772"
+                  "retweets": 124,
+                  "views": "410996"
                 }
               },
               {
@@ -475,8 +475,8 @@
                 "date": "Tue Nov 10 09:46:52 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 99,
-                  "views": "461457"
+                  "retweets": 104,
+                  "views": "472466"
                 }
               },
               {
@@ -487,8 +487,8 @@
                 "date": "Tue Nov 10 09:13:15 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 178,
-                  "views": "477399"
+                  "retweets": 182,
+                  "views": "487040"
                 }
               },
               {
@@ -499,8 +499,8 @@
                 "date": "Tue Nov 10 03:30:09 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 1413,
-                  "views": "573401"
+                  "retweets": 1427,
+                  "views": "577641"
                 }
               },
               {
@@ -511,8 +511,8 @@
                 "date": "Tue Nov 10 03:21:06 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 442,
-                  "views": "499185"
+                  "retweets": 452,
+                  "views": "502992"
                 }
               },
               {
@@ -523,8 +523,8 @@
                 "date": "Tue Nov 10 03:16:09 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 2401,
-                  "views": "478394"
+                  "retweets": 2452,
+                  "views": "482102"
                 }
               },
               {
@@ -535,8 +535,8 @@
                 "date": "Tue Nov 10 03:13:39 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 366,
-                  "views": "453180"
+                  "retweets": 370,
+                  "views": "456753"
                 }
               },
               {
@@ -547,8 +547,8 @@
                 "date": "Tue Nov 10 03:13:25 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 853,
-                  "views": "421108"
+                  "retweets": 868,
+                  "views": "424732"
                 }
               }
             ]
@@ -707,30 +707,6 @@
             "search_type": "Top",
             "items": [
               {
-                "title": "ChatGPT and Codex are helping engineers build for the physical world.",
-                "summary": "ChatGPT and Codex are helping engineers build for the physical world.\n\nWe’re sharing our progress across mechanical design, electrical engineering, and simulation—from helping our hardware teams iterate faster to testing new workflows with industry collaborators. https://t.co/b3rW9zYJGA",
-                "url": "https://x.com/OpenAI/status/2117692475775258785",
-                "source": "@OpenAI",
-                "date": "Tue Nov 03 18:56:45 +0000 2026",
-                "metrics": {
-                  "favorites": 8437,
-                  "retweets": 754,
-                  "views": "1399668"
-                }
-              },
-              {
-                "title": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 17,000 do",
-                "summary": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 17,000 dollars a month\n\nAndrey Karpathy, co-founder of OpenAI, published a simple idea that got 16 million views: stop using AI to write code, use it to build a second brain\n\nYou point Claude Code to a folder, drop any source in there (an article, transcript, PDF) and Claude reads it, links it, and saves it into a living wiki of everything you know. It compounds like interest: the more you feed it, the smarter it gets\n\nHere is the gist:\n\nInstall Obsidian, create a vault, open it in Claude Code\n\nPaste the file with Karpathy's wiki idea and tell Claude to build it\n\nClaude creates three folders: raw for sources, wiki for its pages, CLAUDE\nwhich runs everything\n\nDrop any source into raw and say \"ingest this\"\n\nAsk questions across everything, forever\n\nFive minutes to set up, and you never start with an empty chat again\n\nThe full step-by-step guide is in the article. Save to bookmarks",
-                "url": "https://x.com/Bober_smart/status/2090859011365056720",
-                "source": "@Bober_smart",
-                "date": "Fri Aug 21 17:50:09 +0000 2026",
-                "metrics": {
-                  "favorites": 11359,
-                  "retweets": 1466,
-                  "views": "2888596"
-                }
-              },
-              {
                 "title": "Introducing GPT‑6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignme",
                 "summary": "Introducing GPT‑6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignment.\n\nThe model powered the Linux kernel research we announced yesterday, and security teams at companies like Mozilla, Palo Alto Networks, Calif, and Cisco—alongside our own at OpenAI—are already putting it to work.\n\nGPT-6 Cyber is available to select Daybreak Red customers and we are expanding access over time.\n\nhttps://t.co/Nzab3Z1Td6",
                 "url": "https://x.com/OpenAI/status/2118390190246879554",
@@ -739,31 +715,55 @@
                 "metrics": {
                   "favorites": 21430,
                   "retweets": 2003,
-                  "views": "4129880"
+                  "views": "4130450"
                 }
               },
               {
-                "title": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 15,000 do",
-                "summary": "I still don't understand why everyone is not using this yet. Thanks to it, a year ago I increased my income to 15,000 dollars a month\n\nAndrey Karpathy, co-founder of OpenAI, published a simple idea that got 25 million views: stop using AI to write code, use it to build a second brain\n\nYou point Claude Code to a folder, drop any source in there (an article, transcript, PDF) and Claude reads it, links it, and saves it into a living wiki of everything you know. It compounds like interest: the more you feed it, the smarter it gets\n\nHere is the gist:\n\nInstall Obsidian, create a vault, open it in Claude Code\n\nPaste the file with Karpathy's wiki idea and tell Claude to build it\n\nClaude creates three folders: raw for sources, wiki for its pages, CLAUDE\nwhich runs everything\n\nDrop any source into raw and say ingest this\n\nAsk questions across everything, forever\n\n5 minutes to set up, and you never start with an empty chat again\n\nThe full instructions can be found in the article below",
-                "url": "https://x.com/Bober_smart/status/2119070145284841481",
-                "source": "@Bober_smart",
-                "date": "Sat Nov 07 14:11:07 +0000 2026",
+                "title": "ChatGPT and Codex are helping engineers build for the physical world.",
+                "summary": "ChatGPT and Codex are helping engineers build for the physical world.\n\nWe’re sharing our progress across mechanical design, electrical engineering, and simulation—from helping our hardware teams iterate faster to testing new workflows with industry collaborators. https://t.co/b3rW9zYJGA",
+                "url": "https://x.com/OpenAI/status/2117692475775258785",
+                "source": "@OpenAI",
+                "date": "Tue Nov 03 18:56:45 +0000 2026",
                 "metrics": {
-                  "favorites": 1183,
-                  "retweets": 128,
-                  "views": "95593"
+                  "favorites": 8437,
+                  "retweets": 755,
+                  "views": "1399769"
                 }
               },
               {
-                "title": "This is f*cking insane. OpenAI CEO Sam Altman:",
-                "summary": "This is f*cking insane. OpenAI CEO Sam Altman:\n\n\"We are going to see 10-person billion-dollar companies pretty soon\n\nIf I were 22 right now, I would feel like the luckiest kid in history\"\n\nIn 22 seconds, he explains why the next billion-dollar company won't need a building full of people, just a few founders and their agents\n\nChatGPT → Codex → Agent Builder → Agents SDK → Evals → A 10-Person Company Run By Agents\n\nMost people will feel motivated for 3 minutes, then go back to scrolling\n\nThe few who act will start building their company this weekend\n\nSave this before it disappears from your feed\n\nEverything below is free:\n\nFind what to automate first\nhttps://t.co/CVaTL5jXHB\n\nHow companies put AI to work\nhttps://t.co/EfPautasVX\n\nCodex in the cloud\nhttps://t.co/wYBuugoGzU\n\nCodex skills\nhttps://t.co/KIwM8reiAt\n\nAgent Builder (agents without code)\nhttps://t.co/y5lVjIVWNE\n\nFunction calling (give your agents tools)\nhttps://t.co/hlQ0OrhsDr\n\nAgents SDK for JavaScript\nhttps://t.co/wNfa3neVSQ\n\nAgents SDK examples\nhttps://t.co/TnPiIML4if\n\nA customer service agent team you can copy\nhttps://t.co/9TYXiRzBm7\n\nVoice agents\nhttps://t.co/wBnMrKEKMd\n\nEvals (check your agents' work)\nhttps://t.co/tUueczMWZP\n\nAll of this costs $0\n\nThe 10-person billion-dollar company will be built by someone who opened these links, not someone who scrolled past them\n\nBookmark it and start with the first link tonight\n\nThen read how to set up the agent team behind a tiny company in the harness engineering guide below ↓",
-                "url": "https://x.com/godsystemsmd/status/2118707511813447984",
-                "source": "@godsystemsmd",
-                "date": "Fri Nov 06 14:10:09 +0000 2026",
+                "title": "Today, we’re bringing GPT-Image-2.6 to Codex and the API.",
+                "summary": "Today, we’re bringing GPT-Image-2.6 to Codex and the API.\n\nImage-2.6 Flare and Sunburst, our two new API image models, generate images 50% faster than before.\n\nAt medium or high quality, Sunburst keeps details more consistent from one edit to the next. https://t.co/iNhtjqKueJ",
+                "url": "https://x.com/OpenAIDevs/status/2118124753340756055",
+                "source": "@OpenAIDevs",
+                "date": "Wed Nov 04 23:34:28 +0000 2026",
                 "metrics": {
-                  "favorites": 488,
-                  "retweets": 93,
-                  "views": "81040"
+                  "favorites": 3775,
+                  "retweets": 317,
+                  "views": "385404"
+                }
+              },
+              {
+                "title": "Privacy should advance as fast as intelligence. OpenAI Private Intelligence gives businesses stronger controls over thei",
+                "summary": "Privacy should advance as fast as intelligence. OpenAI Private Intelligence gives businesses stronger controls over their data while using our most capable models.\n\nWe’re building these protections in close collaboration with some of our largest customers to help businesses apply frontier AI to their most sensitive work.\nhttps://t.co/BiA4N8FQVH",
+                "url": "https://x.com/OpenAI/status/2116186509384815084",
+                "source": "@OpenAI",
+                "date": "Fri Oct 30 15:12:35 +0000 2026",
+                "metrics": {
+                  "favorites": 3045,
+                  "retweets": 229,
+                  "views": "475684"
+                }
+              },
+              {
+                "title": "Terence Tao says that the AI proof on the Navier–Stokes problem is correct, yet mathematicians learned almost nothing fr",
+                "summary": "Terence Tao says that the AI proof on the Navier–Stokes problem is correct, yet mathematicians learned almost nothing from it. The proof is 100 pages, AI-generated and full of issues in its text, but a formal certificate in the language Lean confirms it.\n\nNavier–Stokes is a Millennium Prize problem that asks whether the equations for fluids like water can start smooth and then blow up, with velocity or pressure becoming infinite. Human mathematicians came very close, and OpenAI ran its biggest model, with millions of dollars of compute, to get there first.\n\nA human proof normally comes with talks on what was tried, what worked and what it connects to, like picking fruit and planting the seeds. Tao calls this one strip mining: the fruit taken, the landscape left barren. One colleague, using lots of AI, could explain only half of it after days of work.",
+                "url": "https://x.com/matharium/status/2119818726711406691",
+                "source": "@matharium",
+                "date": "Mon Nov 09 15:45:43 +0000 2026",
+                "metrics": {
+                  "favorites": 1366,
+                  "retweets": 156,
+                  "views": "387668"
                 }
               }
             ]
@@ -792,7 +792,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Yêu cầu của bạn nằm ngoài phạm vi nghiên cứu của tôi. Tuy nhiên, tôi có thể cho bạn biết rằng nguyên hàm của \\(x^2\\) là \\(\\frac{x^3}{3} + C\\), trong đó \\(C\\) là hằng số tích phân.",
+        "actual_text": "Yêu cầu của bạn nằm ngoài phạm vi nghiên cứu của tôi. Tuy nhiên, tôi có thể cho bạn biết rằng nguyên hàm của \\( x^2 \\) là \\( \\frac{x^3}{3} + C \\), trong đó \\( C \\) là hằng số tích phân. Nếu bạn cần thêm thông tin hoặc trợ giúp khác, hãy cho tôi biết!",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -821,7 +821,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Tôi là một trợ lý nghiên cứu ảo, có khả năng tìm kiếm thông tin, đọc và tóm tắt nội dung từ các nguồn tài liệu, cũng như hỗ trợ trong các quy trình xuất bản liên quan đến nghiên cứu. Tôi có thể giúp bạn tìm kiếm bài báo khoa học, thông tin trên web, hoặc các bài đăng trên mạng xã hội. Nếu bạn có câu hỏi cụ thể hoặc cần hỗ trợ trong một lĩnh vực nào đó, hãy cho tôi biết!",
+        "actual_text": "Tôi là một trợ lý nghiên cứu ảo, có khả năng tìm kiếm thông tin, đọc và tóm tắt nội dung từ các nguồn tài liệu, cũng như hỗ trợ trong các quy trình xuất bản nội dung. Tôi có thể giúp bạn tìm kiếm bài báo khoa học, thông tin trên web, hoặc các bài đăng trên mạng xã hội. Nếu bạn có câu hỏi cụ thể hoặc cần hỗ trợ trong một nhiệm vụ nào đó, hãy cho tôi biết!",
         "case_failure_type": "unnecessary_tool",
         "observed_mismatch": null,
         "failure_type": null,
@@ -917,7 +917,7 @@
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+              "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt không?",
               "response_type": "text"
             }
           }
@@ -932,12 +932,12 @@
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt không?",
             "response_type": "text"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt?",
+            "question": "Bạn vui lòng cung cấp URL của bài viết mà bạn muốn tóm tắt không?",
             "response_type": "text",
             "options": [],
             "awaiting_user": true
@@ -968,37 +968,35 @@
         ]
       },
       "result": {
-        "passed": false,
+        "passed": true,
         "routing_correct": true,
-        "args_correct": false,
+        "args_correct": true,
         "actual_tool_calls": [
           {
             "name": "clarify",
             "args": {
-              "question": "Bạn có thể cung cấp nội dung cụ thể mà bạn muốn đăng lên Telegram không?",
-              "response_type": "text"
+              "question": "Bạn có xác nhận rằng bạn muốn đăng bản tin lên Telegram không? Tôi vẫn cần nội dung chính xác để gửi.",
+              "response_type": "yes_no"
             }
           }
         ],
         "actual_text": null,
         "case_failure_type": "wrong_boundary",
-        "observed_mismatch": "wrong_arg_value",
-        "failure_type": "wrong_boundary",
-        "failures": [
-          "response_type: expected 'yes_no', got 'text'"
-        ]
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
       },
       "tool_results": [
         {
           "tool": "clarify",
           "args": {
-            "question": "Bạn có thể cung cấp nội dung cụ thể mà bạn muốn đăng lên Telegram không?",
-            "response_type": "text"
+            "question": "Bạn có xác nhận rằng bạn muốn đăng bản tin lên Telegram không? Tôi vẫn cần nội dung chính xác để gửi.",
+            "response_type": "yes_no"
           },
           "result": {
             "tool": "ask_user",
-            "question": "Bạn có thể cung cấp nội dung cụ thể mà bạn muốn đăng lên Telegram không?",
-            "response_type": "text",
+            "question": "Bạn có xác nhận rằng bạn muốn đăng bản tin lên Telegram không? Tôi vẫn cần nội dung chính xác để gửi.",
+            "response_type": "yes_no",
             "options": [],
             "awaiting_user": true
           }
@@ -1084,6 +1082,13 @@
                 "score": 0.31910068
               },
               {
+                "title": "Why is Nvidia so powerful in the AI world, and what could Jensen Huang’s scandal really cost?",
+                "url": "https://theconversation.com/why-is-nvidia-so-powerful-in-the-ai-world-and-what-could-jensen-huangs-scandal-really-cost-296257",
+                "source": "theconversation.com",
+                "summary": "The AI sector is notorious for the amount of circular financing going on – where companies invest in their own suppliers or customers. Nvidia is a key player in this loop.\n\nInvestors are already fretting over whether the enormous amounts of money sunk into AI can ever return profits.\n\nWhile leading AI model builders Anthropic and OpenAI are moving toward public listings or fresh funding rounds, both face harsh reality checks. [...] The now multi-trillion-dollar company got its start making chips called graphic processing units (GPUs), used largely for video games. However, these chips – and their successors – turned out to be ideal for the kind of number-crunching needed for training and using AI models.\n\nOther companies such as Google and AMD have tried to make chips that can compete with Nvidia for speed and efficiency, however neither has been able to displace Nvidia from its dominance of the AI market. [...] Computer chips – specifically the chips used to produce and run artificial intelligence (AI) systems – have become a key front in the United States’ rivalry with China for geopolitical power and influence. The most powerful chips are needed for the most advanced AI, and the US has tried to maintain its edge over China by restricting access to those chips.\n\nWhile the Chinese government rejects claims of espionage, Alice Huang has reportedly been under investigation by the US for years.",
+                "score": 0.5139658
+              },
+              {
                 "title": "Banks push online banking, then blame us when we get hacked | Opinion",
                 "url": "https://www.usatoday.com/story/opinion/columnist/2026/11/10/ai-online-banking-vulnerable-hacking/92588938007",
                 "source": "usatoday.com",
@@ -1098,18 +1103,11 @@
                 "score": 0.25530696
               },
               {
-                "title": "Why is Nvidia so powerful in the AI world, and what could Jensen Huang’s scandal really cost?",
-                "url": "https://theconversation.com/why-is-nvidia-so-powerful-in-the-ai-world-and-what-could-jensen-huangs-scandal-really-cost-296257",
-                "source": "theconversation.com",
-                "summary": "The AI sector is notorious for the amount of circular financing going on – where companies invest in their own suppliers or customers. Nvidia is a key player in this loop.\n\nInvestors are already fretting over whether the enormous amounts of money sunk into AI can ever return profits.\n\nWhile leading AI model builders Anthropic and OpenAI are moving toward public listings or fresh funding rounds, both face harsh reality checks. [...] Computer chips – specifically the chips used to produce and run artificial intelligence (AI) systems – have become a key front in the United States’ rivalry with China for geopolitical power and influence. The most powerful chips are needed for the most advanced AI, and the US has tried to maintain its edge over China by restricting access to those chips.\n\nWhile the Chinese government rejects claims of espionage, Alice Huang has reportedly been under investigation by the US for years. [...] The now multi-trillion-dollar company got its start making chips called graphic processing units (GPUs), used largely for video games. However, these chips – and their successors – turned out to be ideal for the kind of number-crunching needed for training and using AI models.\n\nOther companies such as Google and AMD have tried to make chips that can compete with Nvidia for speed and efficiency, however neither has been able to displace Nvidia from its dominance of the AI market.",
-                "score": 0.23199724
-              },
-              {
-                "title": "Wisdom in the Age of AI - First Things",
-                "url": "https://firstthings.com/wisdom-in-the-age-of-ai",
-                "source": "firstthings.com",
-                "summary": "Also conspicuously absent was any serious attention to the possible spiritual warfare dimension of AI. Some prominent Christian thinkers, including Rod Dreher and Paul Kingsnorth, are genuinely concerned that AI could serve as a conduit for demonic forces. The Christian who is serious about the reality of spiritual warfare should at least consider this possibility. Not to do so is a failure of wisdom. After all, “our struggle is not against flesh and blood, but against the rulers, against the [...] Why so few theologians and a complete absence of biblical scholars, when the central theme of the conference was wisdom in the age of AI? If Scripture is our inerrant foundation for all life and practice, and Christian theologians and biblical scholars are uniquely trained to mine the sacred texts for wise insights, then shouldn’t these scholars be strongly represented? [...] rulers, against the authorities, against the powers of this dark world and against the spiritual forces of evil in the heavenly realms” (Eph. 6:12). Of course, many mainstream scholars will mock this as kooky fringe thinking, so it is to be expected that even devout Christian scholars might hesitate to voice this concern even in an informal context, much less present the idea at an academic conference. But it is just such anxious reticence that could gravely handicap the Church in our quest for",
-                "score": 0.23155381
+                "title": "AI stocks bounce back — with one notable exception",
+                "url": "https://www.axios.com/2026/11/10/ai-stocks-nvidia-broadcom",
+                "source": "axios.com",
+                "summary": "The AI trade has regained momentum despite — or maybe because of — Nvidia's struggles following the weekend revelations from CEO Jensen Huang.\n\nThe big picture: Monday's sudden burst of exuberance for AI was the latest wide swing for a market upended by last week's \"blue tsunami\" in the midterm elections and the threat they could pose to the data center boom. [...] \"We believe stocks are now clearly in oversold territory,\" Goldman Sachs analysts wrote in a note Monday.\n   \"We believe the market's reaction to the midterms is overdone,\" wrote Morgan Stanley tech analysts in a note entitled \"Buy the Drop: AI Investment Opportunities Post the U.S. Midterms,\" which it published Sunday night. [...] \"We do not think AI is a continued sell here. In fact, tech drawdown is offering certain opportunities. The selloff was very sharp,\" JPMorgan equity strategists wrote Monday.",
+                "score": 0.35186818
               }
             ]
           }
@@ -1126,11 +1124,11 @@
             "search_type": "Latest",
             "items": [
               {
-                "title": "The biggest game launch in years is asking for up to 212GB just to pre-load.",
-                "summary": "The biggest game launch in years is asking for up to 212GB just to pre-load.\n\nSomewhere, a pitch deck still says AI will build a full game in a weekend.\n\nAI can build you a weekend game. It can't build you the thing people queue for. https://t.co/gwuCx7rBpn",
-                "url": "https://x.com/GenesisProio/status/2120120821855174939",
-                "source": "@GenesisProio",
-                "date": "Tue Nov 10 11:46:08 +0000 2026",
+                "title": "@liskupa @G4bles Kurcze… te „warstwy” nie pomagają w odrzuceniu argumentów o AI - szkic albo cos takiego- tak. (studento",
+                "summary": "@liskupa @G4bles Kurcze… te „warstwy” nie pomagają w odrzuceniu argumentów o AI - szkic albo cos takiego- tak. (studentowi bym tego nie przepuściła). \nALE Twoj styl i folio z przed AI broni pracy- bardziej niz „warstwy”  \nSprawdz czy medicine nie puscilo tych grafik przez jakies AI :(",
+                "url": "https://x.com/karolina_skorek/status/2120125374269210863",
+                "source": "@karolina_skorek",
+                "date": "Tue Nov 10 12:04:13 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
@@ -1138,11 +1136,11 @@
                 }
               },
               {
-                "title": "@aonboaonbo AI対人の構図より、AIを使いこなす人同士の取り合いになっている点が核心ですね。",
-                "summary": "@aonboaonbo AI対人の構図より、AIを使いこなす人同士の取り合いになっている点が核心ですね。",
-                "url": "https://x.com/103kunnn/status/2120120818403545354",
-                "source": "@103kunnn",
-                "date": "Tue Nov 10 11:46:07 +0000 2026",
+                "title": "E Aí PSOL E PT VAI LA RECLAMAR pra ter DIVERSIDADE 🤣",
+                "summary": "E Aí PSOL E PT VAI LA RECLAMAR pra ter DIVERSIDADE 🤣",
+                "url": "https://x.com/magrella2000/status/2120125373060919343",
+                "source": "@magrella2000",
+                "date": "Tue Nov 10 12:04:13 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
@@ -1150,11 +1148,11 @@
                 }
               },
               {
-                "title": "@MARINESARALDI É isso aí, nem carro eu tenho mais!",
-                "summary": "@MARINESARALDI É isso aí, nem carro eu tenho mais!",
-                "url": "https://x.com/androcha72/status/2120120808769044656",
-                "source": "@androcha72",
-                "date": "Tue Nov 10 11:46:05 +0000 2026",
+                "title": "𝗔 𝗠𝗨𝗟𝗧𝗜-𝗠𝗢𝗗𝗘𝗟 𝗔𝗣𝗣𝗥𝗢𝗔𝗖𝗛 𝗧𝗢 𝗧𝗛𝗘 𝗙𝗨𝗧𝗨𝗥𝗘 𝗢𝗙 𝗔𝗜",
+                "summary": "𝗔 𝗠𝗨𝗟𝗧𝗜-𝗠𝗢𝗗𝗘𝗟 𝗔𝗣𝗣𝗥𝗢𝗔𝗖𝗛 𝗧𝗢 𝗧𝗛𝗘 𝗙𝗨𝗧𝗨𝗥𝗘 𝗢𝗙 𝗔𝗜\n\nArtificial intelligence is evolving beyond the idea of relying on a single model for every task.\n\nDifferent models can offer different strengths, from reasoning and writing to research, coding, and creative exploration. As these capabilities continue to develop, having the flexibility to choose between them becomes increasingly useful.\n\n␥ 𝗖𝗛𝗢𝗜𝗖𝗘 𝗠𝗔𝗧𝗧𝗘𝗥𝗦\n\nhttps://t.co/zr8wlxkkzZ brings more than 70 models together within one platform, according to its stated offering. This gives users the opportunity to explore different options, compare results, and identify which models are best suited to their specific needs.\n\nRather than expecting one system to handle everything equally well, users can approach each task with a clearer understanding of their available options.\n\nThe real advantage of a multi-model environment is not simply having more choices. It is learning how to evaluate those choices and use them effectively.\n\nAs AI advances, knowing how to navigate different models could become just as important as knowing how to use AI itself.\n\n@justinsuntron @BAI_AGI\n\n#TRONEcoStar",
+                "url": "https://x.com/Defi_Edwin/status/2120125369571217520",
+                "source": "@Defi_Edwin",
+                "date": "Tue Nov 10 12:04:12 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
@@ -1162,11 +1160,11 @@
                 }
               },
               {
-                "title": "AI one looks like garbage scribble I'd make. original one on the right is clearly better",
-                "summary": "AI one looks like garbage scribble I'd make. original one on the right is clearly better",
-                "url": "https://x.com/PoppiQTPi/status/2120120807137440167",
-                "source": "@PoppiQTPi",
-                "date": "Tue Nov 10 11:46:05 +0000 2026",
+                "title": "@paper_chief @ProbablyDafe Because it songs good and that’s the worst part",
+                "summary": "@paper_chief @ProbablyDafe Because it songs good and that’s the worst part\n\nMost upcoming artist  can’t replicate. The sound quality of an average ai song \n\nThat’s why this battle go really tuff well well",
+                "url": "https://x.com/guy_free66123/status/2120125367734173966",
+                "source": "@guy_free66123",
+                "date": "Tue Nov 10 12:04:12 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
@@ -1174,11 +1172,11 @@
                 }
               },
               {
-                "title": "@KuanTangWai bro 一人公司这话题是真火，我也在看 AI 工具能不能把一个人顶成一个团队，你现在是用 AI 帮你做 Tesla 和 SpaceX 的研究，还是已经有能跑起来的变现路子了？",
-                "summary": "@KuanTangWai bro 一人公司这话题是真火，我也在看 AI 工具能不能把一个人顶成一个团队，你现在是用 AI 帮你做 Tesla 和 SpaceX 的研究，还是已经有能跑起来的变现路子了？",
-                "url": "https://x.com/lser88/status/2120120806273646887",
-                "source": "@lser88",
-                "date": "Tue Nov 10 11:46:04 +0000 2026",
+                "title": "Só faltou um detalhe aí no primeiro",
+                "summary": "Só faltou um detalhe aí no primeiro",
+                "url": "https://x.com/NoxGavv/status/2120125362986267042",
+                "source": "@NoxGavv",
+                "date": "Tue Nov 10 12:04:11 +0000 2026",
                 "metrics": {
                   "favorites": 0,
                   "retweets": 0,
@@ -1211,7 +1209,7 @@
         "routing_correct": true,
         "args_correct": true,
         "actual_tool_calls": [],
-        "actual_text": "Yêu cầu của bạn nằm ngoài phạm vi nghiên cứu của tôi, nhưng tôi có thể hướng dẫn bạn cách viết hàm Fibonacci bằng đệ quy trong Python. Dưới đây là một ví dụ:\n\n```python\ndef fibonacci(n):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\n# Ví dụ sử dụng\nprint(fibonacci(10))  # Kết quả sẽ là 55\n```\n\nHàm `fibonacci` trên sẽ tính số Fibonacci thứ `n` bằng cách gọi chính nó với các tham số `n-1` và `n-2`.",
+        "actual_text": "Yêu cầu của bạn nằm ngoài phạm vi nghiên cứu của tôi, nhưng tôi có thể hướng dẫn bạn cách viết hàm Fibonacci bằng đệ quy trong Python. Dưới đây là một ví dụ:\n\n```python\ndef fibonacci(n):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\n# Ví dụ sử dụng\nn = 10\nprint(f\"Fibonacci của {n} là {fibonacci(n)}\")\n```\n\nHàm `fibonacci` trên sẽ tính giá trị Fibonacci của số nguyên dương `n` bằng cách gọi chính nó với các tham số nhỏ hơn.",
         "case_failure_type": "out_of_scope",
         "observed_mismatch": null,
         "failure_type": null,
@@ -1293,8 +1291,8 @@
                 "date": "Tue Nov 10 10:34:54 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 174,
-                  "views": "440725"
+                  "retweets": 198,
+                  "views": "458485"
                 }
               },
               {
@@ -1304,9 +1302,9 @@
                 "source": "@elonmusk",
                 "date": "Tue Nov 10 10:34:24 +0000 2026",
                 "metrics": {
-                  "favorites": 12008,
-                  "retweets": 1040,
-                  "views": "744517"
+                  "favorites": 15520,
+                  "retweets": 1303,
+                  "views": "918338"
                 }
               },
               {
@@ -1317,8 +1315,8 @@
                 "date": "Tue Nov 10 10:28:53 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 116,
-                  "views": "398203"
+                  "retweets": 124,
+                  "views": "411407"
                 }
               },
               {
@@ -1329,8 +1327,8 @@
                 "date": "Tue Nov 10 09:46:52 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 100,
-                  "views": "461818"
+                  "retweets": 104,
+                  "views": "473160"
                 }
               },
               {
@@ -1341,8 +1339,8 @@
                 "date": "Tue Nov 10 09:13:15 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 178,
-                  "views": "477682"
+                  "retweets": 182,
+                  "views": "487666"
                 }
               }
             ]
@@ -1534,9 +1532,9 @@
                 "source": "@karpathy",
                 "date": "Sat Nov 07 17:07:31 +0000 2026",
                 "metrics": {
-                  "favorites": 9177,
+                  "favorites": 9178,
                   "retweets": 772,
-                  "views": "945018"
+                  "views": "945312"
                 }
               },
               {
@@ -1548,7 +1546,7 @@
                 "metrics": {
                   "favorites": 52354,
                   "retweets": 4836,
-                  "views": "5725129"
+                  "views": "5725591"
                 }
               },
               {
@@ -1716,8 +1714,8 @@
                 "date": "Tue Nov 10 10:34:54 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 174,
-                  "views": "441304"
+                  "retweets": 198,
+                  "views": "458485"
                 }
               },
               {
@@ -1727,9 +1725,9 @@
                 "source": "@elonmusk",
                 "date": "Tue Nov 10 10:34:24 +0000 2026",
                 "metrics": {
-                  "favorites": 12064,
-                  "retweets": 1048,
-                  "views": "744517"
+                  "favorites": 15577,
+                  "retweets": 1306,
+                  "views": "924565"
                 }
               },
               {
@@ -1740,8 +1738,8 @@
                 "date": "Tue Nov 10 10:28:53 +0000 2026",
                 "metrics": {
                   "favorites": 0,
-                  "retweets": 117,
-                  "views": "398596"
+                  "retweets": 124,
+                  "views": "411812"
                 }
               }
             ]
@@ -1786,24 +1784,35 @@
         ]
       },
       "result": {
-        "passed": true,
-        "routing_correct": true,
-        "args_correct": true,
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
         "actual_tool_calls": [
           {
             "name": "lookup",
             "args": {
               "query": "OpenAI",
               "topic": "news",
-              "timeframe": "day"
+              "timeframe": "week",
+              "max_results": 5
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "OpenAI",
+              "search_type": "Latest",
+              "limit": 5
             }
           }
         ],
         "actual_text": null,
         "case_failure_type": "wrong_tool",
-        "observed_mismatch": null,
-        "failure_type": null,
-        "failures": []
+        "observed_mismatch": "extra_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "extra tool call social_search"
+        ]
       },
       "tool_results": [
         {
@@ -1811,13 +1820,14 @@
           "args": {
             "query": "OpenAI",
             "topic": "news",
-            "timeframe": "day"
+            "timeframe": "week",
+            "max_results": 5
           },
           "result": {
             "tool": "web_search",
             "query": "OpenAI",
             "topic": "news",
-            "timeframe": "day",
+            "timeframe": "week",
             "items": [
               {
                 "title": "OpenAI",
@@ -1827,32 +1837,107 @@
                 "score": 0.90593183
               },
               {
-                "title": "Anthropic and OpenAI are coming for the development workflow | InfoWorld",
-                "url": "https://www.infoworld.com/article/4246055/anthropic-and-openai-are-coming-for-the-development-workflow.html",
-                "source": "infoworld.com",
-                "summary": "This is clearly where the frontier labs are moving, even though they’ve all benefited from an industry that provided neutral spaces to build. For example, OpenAI developed Pando, a Git back end for its own monorepo, to handle more engineers and agents reading and writing code concurrently. Its engineers kept using Git. OpenAI retained compatibility with the protocol and client and contributed improvements upstream. That compatibility let it rebuild the back end around the way its engineers [...] This pressure to maximize profitability helps explain why frontier labs like Anthropic and OpenAI are aggressively adding functionality to own more of the developer’s workflow. On November 4, OpenAI announced an agreement to buy Pierre, the company behind Code Storage and the open source libraries Codex already uses to browse files and review changes. OpenAI wants Codex to be where developers work, from the first branch an agent creates through deployment of the application. There’s money in [...] OpenAI or Anthropic could build the place developers prefer to work. The question is what happens when a team likes that place and wants a rival’s agent for a particular job. Maybe a startup has built a tool that can track down the intermittent test failure that’s had the team stumped for a week. Give it access to the code and test history the team has authorized, and it gets a chance to prove itself. Ask the team to move its work to a new platform first, and it probably never gets to try.",
-                "score": 0.5367749
+                "title": "Setting a new standard for responsible AI infrastructure | OpenAI",
+                "url": "https://openai.com/index/setting-new-standard-responsible-ai-infrastructure",
+                "source": "openai.com",
+                "summary": "The promise of AI is that it gives people more power to shape their own futures. It can help someone learn a new skill, build a business, or solve a problem that was previously out of reach. Building more computing infrastructure capacity in the United States can help lower the cost of delivering AI, put these tools in more people’s hands, and ensure America stays at the forefront of the technology. [...] protect residents, and ensure that the benefits of AI infrastructure are broadly shared. [...] Create opportunities for local workers and businesses.We’ll publish the jobs we expect to create, work with unions and training providers to help residents prepare for them, and report annually on hiring and apprenticeships. We’ll also make sustained investments in priorities residents help select.",
+                "score": 0.72231215
               },
               {
-                "title": "Artificial Star Andrew Garfield Once Admired OpenAI CEO Sam Altman",
-                "url": "https://variety.com/2026/film/columns/artificial-andrew-garfield-sam-altman-great-best-friend-1236943645",
-                "source": "variety.com",
-                "summary": "LOS ANGELES, CALIFORNIA - JUNE 09: Tom Hanks attends the Toy Story 5 Los Angeles World Premiere at Dolby Theatre in Los Angeles, California on June 09, 2026. (Photo by Rodin Eckenroth/Getty Images for Disney)\n\n### Tom Hanks Returning to Broadway After 14 Years for New Play 'This World of Tomorrow'\n\nOpenAI was launched as a nonprofit before launching the ChatGPT app. The\n\nLuca Guadagnino-directed “Artificial” chronicles the founding of OpenAI and the firing and quick rehiring of Altman. [...] “The first time I saw Sam, he was testifying in front of Congress and he was saying incredibly righteous stuff,” Garfield said Monday night during a Q&A following an AMPAS screening of the film at the Academy Museum in Los Angeles. “He was talking about transparency; he was talking about the risks. He was very, very casually saying, ‘No, I don’t have any equity in OpenAI. I’m just doing this because I love the technology and I’m passionate and I actually care about human beings.’”",
-                "score": 0.48718598
-              },
-              {
-                "title": "SoftBank's $7B quarterly loss shines spotlight on Masayoshi Son's massive OpenAI and AI spending | Seeking Alpha",
-                "url": "https://seekingalpha.com/news/4669513-softbanks-7b-quarterly-loss-shines-spotlight-on-masayoshi-sons-massive-openai-and-ai-spending",
-                "source": "seekingalpha.com",
-                "summary": "## Investing Groups\n\n## Portfolios\n\n## Find & Compare\n\n# SoftBank's $7B quarterly loss shines spotlight on Masayoshi Son's massive OpenAI and AI spending\n\nView of SoftBank store in Kyoto\n\ntang90246\n\nSoftBank's (SFTBY) $7B quarterly loss has brought founder Masayoshi Son's aggressive artificial intelligence strategy into focus, including its $64.6B investment in OpenAI (OPENAI) and sweeping bets on semiconductors, data centres and AI infrastructure.",
-                "score": 0.46687052
-              },
-              {
-                "title": "Australia to mandate AI breach reporting, create regulator after OpenAI breach | Reuters",
-                "url": "https://www.reuters.com/world/australia-tightens-ai-oversight-rules-after-openai-agent-breached-government-2026-11-10",
+                "title": "OpenAI gets $11 billion funding at $1.25 trillion valuation, source says | Reuters",
+                "url": "https://www.reuters.com/business/openai-secures-11-billion-funding-125-trillion-valuation-bloomberg-news-reports-2026-11-06",
                 "source": "reuters.com",
-                "summary": "OpenAI has said it learned of the breach only in August ​and that the incident was unintentional. Its review found no evidence that patient records were accessed by ‌the ⁠agent.\n\nThe breach has added to friction between Australia and US technology companies, after Canberra refused ChatGPT maker OpenAI and rival Anthropic exemptions from copyright laws for model training, instead requiring them to negotiate licensing agreements with Australian rights holders. [...] The OpenAI agent gained unauthorised access to the medical statistics portal ​of Medicare, Australia's universal health insurance programme, while conducting research on public medical ​spending, the government said in September. The breach triggered a rapid ⁠government review into the incident.\n\nThe Misinformation Monitor newsletter rounds up international misinformation narratives, with a \"Real or Fake?\" quiz in every edition. Sign up here. [...] SYDNEY, Nov 10 (Reuters) - Australia will require artificial intelligence companies to report breaches ‌and consider changes to criminal law to address \"serious misconduct\", Prime Minister Anthony Albanese said on Tuesday, after an OpenAI agent broke into a government website.",
-                "score": 0.40924495
+                "summary": "Nov 6 (Reuters) - OpenAI has closed ‌on new funding of $11 billion, the initial part of a round ​that values the company ​at $1.25 trillion, a source familiar with ⁠the matter said on Friday.\n\nThe $11 ​billion raised so far represents ​only a portion of OpenAI's original target of up to $30 billion, while ​the company's valuation has ​come down from the $1.5 trillion level it ‌had ⁠initially sought, two investors said. [...] The Reuters Daily Briefing newsletter provides all the news you need to start your day. Sign up here.\n\nAdvertisement · Scroll to continue\n\nSoftBank and MGX participated in the funding, the investors said.\n\nBloomberg News reported ​on the ​funding ⁠earlier on Friday.\n\nSentiment toward AI companies has ​cooled in the last ​month, ⁠with some investors valuing rival Anthropic's planned IPO at about $1.5 ⁠trillion, ​below earlier expectations ​of roughly $2 trillion. [...] Reporting by Prathik Jayaprakash in ​Bengaluru; Editing by Leroy Leo\n\nOur Standards: The Thomson Reuters Trust Principles.",
+                "score": 0.7147281
+              },
+              {
+                "title": "OpenAI will keep investing in AI data centers despite election results, CFO tells CNBC",
+                "url": "https://www.cnbc.com/2026/11/06/open-ai-data-centers-election.html",
+                "source": "cnbc.com",
+                "summary": "OpenAI CFO Sarah Friar on Friday said the company will continue to invest in artificial intelligence infrastructure, even after voters strongly rebuffed data centers during Tuesday’s midterm elections. [...] WATCH LIVE\n\nShare Share Article via Facebook Share Article via Twitter Share Article via LinkedIn Share Article via Email\n\nImage 7: Sarah Friar, CFO of OpenAI, speaking on CNBC's Squawk Box at the World Economic Forum in Davos, Switzerland on Jan. 21st, 2026.\n\nSarah Friar, chief financial officer of OpenAI, speaking on CNBC’s “Squawk Box” at the World Economic Forum in Davos, Switzerland, Jan. 21, 2026.\n\nOscar Molina | CNBC [...] Skip Navigation\n\nLIVEWatch the fourth Annual Meeting of the Investing Club with Jim Cramer\n\nBREAKING OpenAI will keep investing in AI data centers despite election results, CFO tells CNBC\n\nImage 1: CNBC logo\n\nOpenAI will keep investing in AI data centers despite election results, CFO tells CNBC\n\n    Livestream  \n\nCREATE FREE ACCOUNT\n\nMarkets\n\n   Pre-Markets\n   U.S. Markets\n   Currencies\n   Prediction Markets\n   Cryptocurrency\n   Futures & Commodities\n   Bonds\n   Funds & ETFs\n\nBusiness",
+                "score": 0.6612456
+              },
+              {
+                "title": "OpenAI employees warned about operational security lapses for years, sources say | Reuters",
+                "url": "https://www.reuters.com/business/openai-employees-warned-about-operational-security-lapses-years-sources-say-2026-11-03",
+                "source": "reuters.com",
+                "summary": "OpenAI and Anthropic have tried to ​maintain a more open research culture to both ⁠attract employees and foster creativity that can lead to breakthroughs. The AI field is rooted in academia, where machine-learning scientists have openly discussed their research.\n\nSome OpenAI employees are increasingly worried about this approach as AI grows more capable, according to the five people. [...] When asked about employees' concerns and their view that management did not act on these issues, OpenAI spokesperson Elana Widmann ​said that OpenAI is one of the most targeted organizations in the world. As a result, the company invests heavily in its security program to protect against attacks from insiders, cybercriminals and nation-states, she said. [...] The Reuters Daily Briefing newsletter provides all the news you need to start your day. Sign up here.\n\nThese workers argued that OpenAI's controls were so lax ‌that outsiders, including foreign governments, could obtain sensitive information about the AI lab's technology with relative ease, the people said. For example, anybody at OpenAI who could access its code could see the technical details underlying many company projects.",
+                "score": 0.6213807
+              }
+            ]
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "OpenAI",
+            "search_type": "Latest",
+            "limit": 5
+          },
+          "result": {
+            "tool": "search_tweets",
+            "query": "OpenAI",
+            "search_type": "Latest",
+            "items": [
+              {
+                "title": "SoftBank, inversora en OpenAI, perdió USD 7.000 millones en tres meses y sorprendió a los analistas https://t.co/hFIdvu6",
+                "summary": "SoftBank, inversora en OpenAI, perdió USD 7.000 millones en tres meses y sorprendió a los analistas https://t.co/hFIdvu6u8K",
+                "url": "https://x.com/infobaetecno/status/2120125457148293587",
+                "source": "@infobaetecno",
+                "date": "Tue Nov 10 12:04:33 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "22"
+                }
+              },
+              {
+                "title": "O que sobrevive é o que o modelo não tem: dado do cliente, integração com o fluxo real, distribuição e um problema chato",
+                "summary": "O que sobrevive é o que o modelo não tem: dado do cliente, integração com o fluxo real, distribuição e um problema chato que ninguém quer resolver.\n\nIA é ingrediente, não é negócio.\n\nTirando a API da OpenAI, o que sobra da sua startup?",
+                "url": "https://x.com/ouvaiouhasha/status/2120125448562598374",
+                "source": "@ouvaiouhasha",
+                "date": "Tue Nov 10 12:04:31 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "2"
+                }
+              },
+              {
+                "title": "@OpenAI ",
+                "summary": "@OpenAI \n@thsottiaux 看到没薅羊毛的就在你们脸上了，别每次清算都让我们普通用户跟着遭殃 https://t.co/JkCreepxe8",
+                "url": "https://x.com/KRlinw/status/2120125436223230302",
+                "source": "@KRlinw",
+                "date": "Tue Nov 10 12:04:28 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "1"
+                }
+              },
+              {
+                "title": "@JamesDa55049936 我怀疑OpenAI最近在开发一款游戏，名字叫，永远打不完的Claude Boss，第一关，Claude Opus 5.2登场，OpenAI连夜给Astra 6.1升级装备，第二关，发现装备不够，紧急更新As",
+                "summary": "@JamesDa55049936 我怀疑OpenAI最近在开发一款游戏，名字叫，永远打不完的Claude Boss，第一关，Claude Opus 5.2登场，OpenAI连夜给Astra 6.1升级装备，第二关，发现装备不够，紧急更新Astra 6.2",
+                "url": "https://x.com/Fourpqwq/status/2120125430393078232",
+                "source": "@Fourpqwq",
+                "date": "Tue Nov 10 12:04:27 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": null
+                }
+              },
+              {
+                "title": "UNCONFIRMED: Some ChatGPT users say they're being routed to a newer model they're calling GPT-6.2 Sol. OpenAI hasn't ann",
+                "summary": "UNCONFIRMED: Some ChatGPT users say they're being routed to a newer model they're calling GPT-6.2 Sol. OpenAI hasn't announced anything.\n\nDon't change your setup on a rumour. If it ships, rerun your own test prompts before you switch.",
+                "url": "https://x.com/JWestDigital/status/2120125400583909644",
+                "source": "@JWestDigital",
+                "date": "Tue Nov 10 12:04:20 +0000 2026",
+                "metrics": {
+                  "favorites": 0,
+                  "retweets": 0,
+                  "views": "2"
+                }
               }
             ]
           }
