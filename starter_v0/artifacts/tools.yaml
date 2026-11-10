@@ -60,7 +60,7 @@ tools:
       required: [screenname]
 
   - name: social_search
-    description: "Tìm bài đăng công khai trên X/Twitter theo từ khóa hoặc chủ đề.Dùng khi người dùng yêu cầu tìm tweet theo chủ đề. Không dùng để lấy timeline của một tài khoản cụ thể hoặc tìm bài báo web."
+    description: "Tìm bài đăng công khai trên X/Twitter theo từ khóa hoặc chủ đề. Dùng khi yêu cầu hiện tại vẫn cần tìm tweet theo chủ đề. Không dùng để lấy timeline của một tài khoản cụ thể, tìm bài báo web, hoặc khi người dùng đã bỏ Twitter/tweet và chuyển sang nguồn khác."
     parameters:
       type: object
       properties:
@@ -70,7 +70,7 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tìm thông tin trên web; không dùng để tìm tweet hoặc đọc một URL đã biết. Khi tìm tin tức phải truyền topic=news và timeframe phù hợp. Nếu yêu cầu cả web và tweet, gọi lookup và social_search với args riêng cho từng nguồn."
+    description: "Tìm thông tin trên web; không dùng để tìm tweet hoặc đọc một URL đã biết. Khi tìm tin tức phải truyền topic=news và timeframe phù hợp. Chỉ gọi thêm social_search khi yêu cầu hiện tại vẫn cần cả web và tweet. Nếu người dùng đã bỏ Twitter/tweet hoặc chuyển sang chỉ tìm web tin tức, chỉ gọi lookup và không gọi social_search."
     parameters:
       type: object
       properties:
