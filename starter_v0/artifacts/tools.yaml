@@ -16,12 +16,12 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Gửi một câu hỏi cho người dùng."
+    description: "Hỏi lại khi thiếu thông tin hoặc xin xác nhận trước khi gửi/đăng. Với yêu cầu gửi/đăng ban đầu, hỏi xác nhận bằng response_type=yes_no và chưa gọi send; xác nhận này không cho phép gửi nội dung chưa biết. Thiếu tài khoản hoặc URL thì dùng response_type=text."
     parameters:
       type: object
       properties:
         question: {type: string, default: "", description: "Câu hỏi"}
-        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Phải truyền rõ: yes_no khi xin xác nhận gửi/đăng; text khi hỏi tài khoản hoặc URL còn thiếu; choice khi chọn trong options. Không dùng mặc định text cho câu hỏi xác nhận."}
         options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
       required: [question]
 
@@ -45,13 +45,13 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet."
+    description: "Tìm thông tin trên web; không dùng để tìm tweet hoặc đọc một URL đã biết. Khi tìm tin tức phải truyền topic=news và timeframe phù hợp. Nếu yêu cầu cả web và tweet, gọi lookup và social_search với args riêng cho từng nguồn."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Truy vấn"}
-        topic: {type: string, enum: [general, news], default: "general", description: "Phân loại"}
-        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Khoảng thời gian"}
+        query: {type: string, default: "", description: "Chủ đề cần tìm, giữ đúng từ khóa người dùng; ví dụ tin AI hôm nay dùng query=AI. Biểu diễn loại tin và thời gian bằng topic và timeframe thay vì thêm vào query."}
+        topic: {type: string, enum: [general, news], default: "general", description: "Phải truyền news khi người dùng hỏi tin tức/bản tin/news, kể cả yêu cầu nhiều nguồn; general cho tra cứu thông tin thông thường. Không bỏ topic khi tìm tin tức."}
+        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Hôm nay/24 giờ dùng day; tuần này dùng week; tháng này dùng month; năm nay dùng year. Truyền rõ khi người dùng chỉ định thời gian; giữ thời gian từ hội thoại nếu chưa được thay đổi."}
         max_results: {type: integer, default: 5, description: "Số kết quả"}
       required: [query]
 
