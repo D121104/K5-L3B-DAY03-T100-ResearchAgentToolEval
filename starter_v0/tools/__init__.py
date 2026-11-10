@@ -18,6 +18,9 @@ from .policy.tool import search_company_policy
 from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
+# Kept on disk but not registered for the model:
+# from .cite.tool import cite
+# from .rank_sources.tool import rank_sources
 
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the

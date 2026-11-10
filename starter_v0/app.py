@@ -51,6 +51,45 @@ def init_session() -> None:
         st.session_state.history = []  # provider context pairs
 
 
+def render_tool_event(event: dict[str, Any]) -> None:
+    """Pretty-print special local tools; fall back to raw dump."""
+    tool_name = event.get("tool") or (event.get("result") or {}).get("tool")
+    result = event.get("result") if isinstance(event.get("result"), dict) else {}
+    args = event.get("args")
+
+    st.markdown(f"**`{tool_name or 'tool'}`**")
+    if args:
+        st.caption(f"args: `{args}`")
+
+    if tool_name == "rank_sources" and "items" in result and "error" not in result:
+        rows = [
+            {
+                "score": item.get("score"),
+                "title": item.get("title") or item.get("url") or "",
+                "matched_terms": ", ".join(item.get("matched_terms") or []),
+                "source": item.get("source") or "",
+            }
+            for item in result.get("items") or []
+        ]
+        st.caption(f"query: `{result.get('query', '')}` · kept {result.get('item_count', 0)}")
+        if rows:
+            st.dataframe(rows, use_container_width=True, hide_index=True)
+        else:
+            st.info("Không còn item sau khi xếp hạng.")
+        return
+
+    if tool_name == "cite" and "citations" in result and "error" not in result:
+        st.caption(f"style: `{result.get('style', '')}` · {result.get('item_count', 0)} item(s)")
+        citations = result.get("citations") or ""
+        if citations:
+            st.code(citations, language="text")
+        else:
+            st.info("Danh sách citation trống.")
+        return
+
+    st.code(f"{tool_name}({args})\n→ {event.get('result')}", language="text")
+
+
 def render_sidebar() -> dict[str, Any]:
     st.sidebar.header("Cấu hình")
     provider = st.sidebar.selectbox(
@@ -97,7 +136,6 @@ def main() -> None:
     with st.sidebar.expander("Tools đang load"):
         for name in runtime["tool_names"]:
             st.write(f"- `{name}`")
-    print("st.session_state.messages", st.session_state.messages)
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
@@ -105,10 +143,7 @@ def main() -> None:
             if tools:
                 with st.expander(f"Tool calls ({len(tools)})"):
                     for event in tools:
-                        st.code(
-                            f"{event.get('tool')}({event.get('args')})\n→ {event.get('result')}",
-                            language="text",
-                        )
+                        render_tool_event(event)
 
     prompt = st.chat_input("Nhập yêu cầu research…")
     if not prompt:
@@ -148,10 +183,7 @@ def main() -> None:
         if tool_events:
             with st.expander(f"Tool calls ({len(tool_events)})"):
                 for event in tool_events:
-                    st.code(
-                        f"{event.get('tool')}({event.get('args')})\n→ {event.get('result')}",
-                        language="text",
-                    )
+                    render_tool_event(event)
 
     st.session_state.messages.append(
         {"role": "assistant", "content": assistant_text, "tools": tool_events}

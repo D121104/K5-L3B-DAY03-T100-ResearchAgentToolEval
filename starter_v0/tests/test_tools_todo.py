@@ -294,3 +294,7 @@ def test_compare_sources_missing_title_or_facts_returns_error_dict() -> None:
     ])
     assert result["error"] == "ValueError"
     assert "title and facts" in result["message"]
+
+
+# rank_sources / cite: code kept under tools/ but unregistered from TOOL_FUNCTIONS
+# and tools.yaml so the model does not see them.
