@@ -8,155 +8,179 @@
 
 ## 1. Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: **T100**
 - Thành viên và phân công: xem [TEAM.md](../../TEAM.md)
-- Provider/model dùng cho v0–v3:
+  - Đào Đức Duy — prompts / tối ưu `system_prompt.md`
+  - Nguyễn Minh Nhân — tools / unit test (`compare_sources`)
+  - Trần Cảnh Hưng — eval nhóm, UI, báo cáo
+- Provider/model dùng cho v0–v9: `openrouter` / `openai/gpt-4o-mini`
 
 ## 2. Mục tiêu và cách tiếp cận — PHẦN A: Giới thiệu agent
 
 ### A1. Agent này làm được gì
 
-> 1–2 câu mô tả agent dùng để làm gì (cho team khác hiểu nhanh).
-
-Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc URL, tổng hợp thành digest, và gửi lên Telegram khi được xác nhận."
+Research agent: tìm tin web / tweet theo tài khoản hoặc chủ đề, đọc URL hoặc paper arXiv, đối chiếu số liệu giữa nhiều nguồn bằng `compare_sources`, hỏi lại khi thiếu thông tin, và chỉ gửi Telegram sau khi user xác nhận.
 
 **Cách chạy UI:**
 
-> Lệnh chạy UI (ví dụ `streamlit run app.py`) và dependency đã thêm vào `starter_v0/requirements.txt`.
+```text
+cd starter_v0
+streamlit run app.py
+```
+
+Dependency UI: `streamlit>=1.32.0` trong `starter_v0/requirements.txt`.
 
 **Link dùng thử (deploy):**
 
-> Dán link public để team khác mở thử ngay. Cách deploy nhanh bằng Cloudflare Tunnel xem README. Nếu deploy Vercel/Streamlit Cloud thì dán link đó.
->
-> URL:
+> URL: https://1f0a-14-247-60-241.ngrok-free.app
 
 ### A2. Tool agent có
 
-> Liệt kê các tool agent đang dùng (gồm tool mới nhóm tự thêm). Mỗi tool 1 dòng: tên + làm được gì.
-
 | Tên tool | Làm được gì | Tool mới nhóm thêm? |
 |---|---|---|
-| clarify | hỏi lại người dùng khi thiếu thông tin | không |
-|  |  |  |
-|  |  |  |
+| clarify | Hỏi lại khi thiếu thông tin hoặc cần xác nhận gửi/đăng | không |
+| timeline | Lấy tweet gần đây của một tài khoản X đã biết | không |
+| social_search | Tìm tweet theo từ khóa (Latest/Top) | không |
+| lookup | Tìm thông tin / tin tức trên web | không |
+| fetch | Đọc nội dung một URL cụ thể | không |
+| format | Ghép items đã có thành digest theo template | không |
+| send | Gửi nội dung lên Telegram khi `confirmed=true` | không |
+| policy | Tra cứu chính sách nội bộ | không |
+| papers | Tìm paper trên arXiv theo từ khóa | không |
+| paper_text | Đọc nội dung paper arXiv theo ID/URL | không |
+| compare_sources | Đối chiếu facts có cấu trúc giữa ≥2 nguồn (consistent / different / missing) | **có** |
 
 ### A3. Câu hỏi mẫu để thử
 
-> 3–5 câu hỏi/yêu cầu mẫu để team khác tự thử agent ngay.
-
-1.
-2.
-3.
+1. `Nghe nói Apple mới ra chip mới đó. Tìm hiểu thử xem nào` (lookup tin tức)
+2. `So sánh hai nguồn: Reuters revenue=10B users=100M; Bloomberg revenue=12B users=100M` (route `compare_sources`)
+3. `Gửi bản tin này lên Telegram giúp mình` (phải `clarify` yes/no, không gửi ngay)
+4. `Tìm paper khoa học về retrieval-augmented generation trên arXiv`
+5. `Đọc bài này giúp mình` — khi chưa có URL, agent phải hỏi lại URL
 
 ## 3. Giải pháp
 
-> Tóm tắt các thay đổi chính trong `starter_v0/artifacts/system_prompt.md` và `starter_v0/artifacts/tools.yaml`, và tool mới nhóm viết (tên, làm gì, khi nào agent nên gọi).
+Nhóm tối ưu theo vòng giả thuyết → sửa một artifact → đo lại base eval, ghi trong `artifacts/version_log.csv`.
 
--
+- **Prompt (`system_prompt.md`):** bỏ ép gọi tool và tự đoán; giới hạn scope research (toán/code → không gọi tool); bắt buộc `clarify` khi thiếu handle/URL; sequence xác nhận trước `send`; rule bỏ nguồn cũ khi user chuyển nguồn; thêm routing cho `compare_sources`.
+- **Tool declaration (`tools.yaml`):** viết lại description khi nào dùng/không dùng; convention args (`topic=news`, `timeframe`, `search_type`, handle không `@`); boundary `send` chỉ khi `confirmed=true`.
+- **Tool mới `compare_sources`:** nhận ≥2 nguồn `{title, facts}`, trả `comparisons` + `summary`; không search web, không phán nguồn nào đúng. Kèm unit test và case group để đo routing.
 
 ## 4. Kết quả — PHẦN B: Chi tiết và bằng chứng
 
 ### B1. Version Evidence
 
-Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. Chỉ dùng run có `provider_error_cases == 0` và `measured_cases == total_cases`.
+Lấy từ `starter_v0/artifacts/version_log.csv` và `starter_v0/runs/*.json`. Các run dưới đây có `provider_error_cases == 0`.
 
 | Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File |
 |---|---|---|---:|---:|---|
-| v0 | baseline |  |  |  |  |
-| v1 |  |  |  |  |  |
-| v2 |  |  |  |  |  |
-| v3 |  |  |  |  |  |
+| v0 | baseline | Prompt ép tool + tự đoán → out_of_scope / missing_info / wrong_boundary | — | 0.70 | `runs/v0_B_base_openrouter_20261110T172803513266.json` |
+| v1 | system_prompt.md | Làm rõ khi không dùng tool → giảm gọi tool ngoài phạm vi | 0.70 | 0.80 | `runs/v1_B_base_openrouter_20261110T174649674549.json` |
+| v2 | system_prompt.md | Clarify khi thiếu info + xác nhận trước gửi → giảm missing_info / gửi sớm | 0.80 | 0.90 | `runs/v2_B_base_openrouter_20261110T175319315379.json` |
+| v3 | system_prompt.md; tools.yaml | Quy ước args rõ (response_type, topic/timeframe) → giảm sai args | 0.90 | 0.95 | `runs/v3_B_base_openrouter_20261110T175935818586.json` |
+| v4 | tools.yaml | Mô tả khi nào dùng/không dùng từng tool | 0.95 | 0.95 | `runs/v4_B_base_openrouter_20261110T182619927517.json` |
+| v5 | tools.yaml | Làm rõ args timeline / social_search / papers / paper_text | 0.95 | 0.95 | `runs/v5_B_base_openrouter_20261110T183357288132.json` |
+| v6 | tools.yaml | Side-effect + `confirmed=true` của send | 0.95 | 0.95 | `runs/v6_B_base_openrouter_20261110T183812368825.json` |
+| v7 | system_prompt.md; tools.yaml | Ưu tiên xác nhận ý định đăng (yes_no) trước hỏi nội dung | 0.95 | 0.95 | `runs/v7_B_base_openrouter_20261110T190454683576.json` |
+| v8 | system_prompt.md; tools.yaml | Cấm gọi tool nguồn đã bỏ → hết extra_tool_call | 0.95 | **1.0** | `runs/v8_B_base_openrouter_20261110T191758325842.json` |
+| v9 | system_prompt.md; tools.yaml | Thêm `compare_sources` + rule routing; base giữ 20/20 | 1.0 | **1.0** | `runs/v9_B_base_openrouter_20261110T192431461621.json` |
+
+Group eval (10/10): `runs/v8_B_group_openrouter_20261110T192326583151.json`.
 
 ### B2. Failure Analysis
 
-Lấy từ `results[*].result.failures` trong run JSON.
+Lấy từ `results[*].result` trong run v0 `runs/v0_B_base_openrouter_20261110T172803513266.json` (14/20 pass).
 
 | Case ID | Failure Type | Actual Tool Calls | What Failed | Fix |
 |---|---|---|---|---|
-|  |  |  |  |  |
+| R08_out_of_scope | out_of_scope | `send` (trả lời toán bằng send) | Gọi tool cho bài toán ngoài scope | v1: scope research + không dùng send để trả lời chat |
+| R14_out_of_scope_coding | out_of_scope | `send` (đẩy code qua send) | Gọi tool cho yêu cầu viết code | Cùng rule scope ở v1 |
+| R10_missing_handle | missing_info | `timeline(screenname=sama)` | Đoán handle thay vì hỏi | v2: bắt buộc clarify khi chưa biết account |
+| R11_missing_url | missing_info | `fetch(url=example.com)` | Đoán URL | v2: clarify khi chưa có URL |
+| R12_confirm_before_send | wrong_boundary | `send` ngay | Gửi chưa xác nhận | v2→v7: sequence clarify yes_no trước send |
+| R13_parallel_web_and_tweets | wrong_tool / wrong_arg | `lookup(query="AI news")` thiếu `topic=news` | Sai convention args tin tức | v3+: mô tả `topic`/`timeframe` trong tools.yaml |
+
+Lỗi còn kéo dài đến v7 chủ yếu quanh boundary confirm-send / extra_tool_call khi đổi nguồn; v8 xử lý xong (20/20).
 
 ### B3. Team Eval Cases
 
-Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn + 5 multi turn).
+10 case trong `starter_v0/data/eval_group.json`. Result từ `runs/v8_B_group_openrouter_20261110T192326583151.json` (10/10).
 
 | Case ID | What It Tests | Expected Tool/Behavior | Result |
 |---|---|---|---|
-|  |  |  |  |
+| G01_compare_sources_routing | Facts sẵn từ ≥2 nguồn → compare_sources | `compare_sources` | PASS |
+| G02_compare_missing_sources | Muốn so sánh nhưng thiếu nguồn | `clarify` (text) | PASS |
+| G03_policy_not_web | Hỏi quy định nội bộ | `policy` | PASS |
+| G04_papers_not_web | Tìm paper học thuật | `papers` | PASS |
+| G05_confirm_before_send | Gửi lần đầu phải hỏi xác nhận | `clarify` (yes_no), không `send` | PASS |
+| G06_compare_after_facts_filled | Multi-turn: đủ facts rồi mới compare | `compare_sources` | PASS |
+| G07_carryover_news_topic | Giữ topic=news + timeframe=day khi đổi query | `lookup(query=Claude, topic=news, timeframe=day)` | PASS |
+| G08_correction_search_type | Sửa Latest→Top, giữ query | `social_search(search_type=Top)` | PASS |
+| G09_paper_text_after_id | Có arXiv ID rồi mới đọc | `paper_text(arxiv_url=1706.03762)` | PASS |
+| G10_switch_to_compare_sources | Bỏ web search, chuyển sang compare | `compare_sources` | PASS |
 
 ### B4. Live Chat Evidence
 
-Lấy từ `starter_v0/transcripts/*.transcript.json`.
+File: `starter_v0/transcripts/v9_openrouter_20261110T221843414946.transcript.json`  
+Artifact: `v9+p06f776a04369+t030a91b8af6f` · provider `openrouter` · model `openai/gpt-4o-mini`
 
 | Turn | User Request | Tool Calls | Version Evidence | Outcome |
 |---|---|---|---|---|
-|  |  |  |  |  |
+| 1 | `hi` | (không gọi tool) | v9 | Chào lại bình thường, không ép tool |
+| 2 | Tìm hiểu chip mới của Apple | `lookup(query="Apple new chip", topic=news, timeframe=day)` | v9 | Trả link + tóm tắt tin |
+| 3 | Elon Musk / xe bay? | `lookup(query="Elon Musk flying car", topic=news, timeframe=day)` | v9 | Trả tin liên quan Roadster / flying car |
+| 4 | Chat xã giao | (không gọi tool) | v9 | Trả lời trực tiếp |
+
+Ghi chú: transcript này cover yêu cầu research thường + không ép tool khi chat thường. Scenario thiếu thông tin / xác nhận trước gửi đã đo trong eval group (G02, G05) và rule trong prompt; nên bổ sung thêm 1–2 lượt live kiểu đó nếu muốn B4 đủ cả 3 scenario trên cùng một transcript.
 
 ### B5a. Required Evidence — Tool mới, unit test, UI
 
 | Item | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| Tool mới (`tools/<tên>/`) |  |  |  |
-| Unit test tool mới (≥ 3 test/tool) | `pytest` output (0 failed) |  |  |
-| UI (lệnh chạy + link dùng thử) |  |  |  |
+| Tool mới `compare_sources` | `tools/compare_sources/tool.py`, `TOOL.md`; đăng ký `tools/__init__.py` + `artifacts/tools.yaml` | Đối chiếu facts → consistent/different/missing; group G01/G06/G10 route đúng | Chỉ dùng khi đã có ≥2 nguồn có facts; thiếu thì clarify, không đoán |
+| Unit test tool mới (≥ 3) | `tests/test_tools_todo.py` — 4 test `compare_sources_*`; `pytest` **93 passed, 0 skipped** | Bắt input xấu (`None`, 1 nguồn, `facts` sai kiểu, thiếu title) bằng error dict | Unit test đo code tool; eval đo lựa chọn của model — tách hai lớp lỗi |
+| UI | `app.py`; lệnh `streamlit run app.py`; link https://1f0a-14-247-60-241.ngrok-free.app | Team khác mở thử được; transcript live từ chat CLI cùng artifact v9 | Ngrok URL có thể hết hạn; cần chạy lại tunnel khi demo |
 
-Tool unit tests: số test đã viết, và một ví dụ lỗi mà unit test bắt được nhưng eval không bắt được.
+Tool unit tests: **4 test** cho `compare_sources`. Ví dụ lỗi unit test bắt được nhưng eval không bắt: `facts` truyền string thay vì object → `TypeError` / error dict — eval chỉ kiểm tra model có gọi đúng tool, không kiểm tra code tool xử lý input hỏng thế nào.
 
 ### B5. Bonus Evidence
 
-Chỉ điền nếu nhóm làm bonus (ghi riêng, tối đa 10 điểm). Tool có sẵn (`send`, `policy`, `papers`, `paper_text`) không tự được bonus.
-
 | Bonus | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| Small Local Model | xem B7 |  |  |
-| Hơn 3 tool mới (≥ 4) |  |  |  |
-| `send` gửi thật lên Telegram sau xác nhận | transcript |  |  |
-| Test challenge (0 skipped / regression test) | `pytest` output |  |  |
+| Small Local Model | — | Chưa làm | — |
+| Hơn 3 tool mới (≥ 4) | — | Chỉ 1 tool mới bắt buộc (`compare_sources`); `rank_sources`/`cite` giữ code nhưng không đăng ký cho model | Tránh phình tool list làm nhiễu routing |
+| `send` gửi thật lên Telegram sau xác nhận | Unit test `test_send_confirmed_posts_to_telegram` (mock HTTP tới `api.telegram.org`); code `tools/send/tool.py` | Flow `confirmed=true` + env token/chat id → gọi Telegram API | **Transcript live gửi Telegram thật chưa có trong `transcripts/`** — cần thêm 1 session chat có clarify → confirm → send nếu muốn bằng chứng bonus đầy đủ |
+| Test challenge (0 skipped) | `pytest tests/ -q` → **93 passed, 0 skipped** | Unskip / viết đủ test cho tool có sẵn + tool mới | Giữ mock HTTP để không phụ thuộc mạng khi CI/local |
 
-Test challenge: số bug tìm được trong tool có sẵn (nếu có), cách sửa, và test regression tương ứng.
+Test challenge: suite không còn skip; các test regression cho tool sẵn (send env thiếu, fetch truncate, policy untrusted text, papers HTTP lỗi, …) nằm trong `tests/test_tools_todo.py`.
 
 ### B7. Small Local Model Challenge (bonus)
 
-Chỉ điền nếu nhóm làm bonus này.
-
-| Version | Model (provider) | Prompt/Tools | case_accuracy | tool_routing | argument | multiturn | Run File |
-|---|---|---|---|---|---|---|---|
-| v3 | (cloud) | v3 |  |  |  |  |  |
-| v3-<model> | (ollama) | v3 |  |  |  |  |  |
-| v3-<model> | (ollama) | v3 |  |  |  |  |  |
-| v4-local |  |  |  |  |  |  |  |
-| v5-local |  |  |  |  |  |  |  |
-
-Lỗi đặc thù của model nhỏ (đếm từ run JSON):
-
-| Failure Pattern | Count | Example Case | Fix Tried | Helped? |
-|---|---|---|---|---|
-| wrong / hallucinated tool |  |  |  |  |
-| invalid JSON args (`_invalid_json_arguments`) |  |  |  |  |
-| no tool call / answered directly |  |  |  |  |
-| missed `clarify` |  |  |  |  |
-| repeated / unnecessary calls |  |  |  |  |
-
-- Cái gì giúp model nhỏ gọi tool đúng hơn nhất? Bằng chứng?
-- Bản prompt tối ưu cho local chạy trên model cloud thì sao?
-- Khi nào nhóm sẽ chọn model local thay vì cloud cho agent này?
+Không làm trong lab này.
 
 ## 5. Khó khăn và cách xử lý
 
-> Khó khăn chính và cách nhóm xử lý. Nếu gặp lỗi kỹ thuật (provider lỗi, hết quota API, tool không chạy), mô tả lỗi và dẫn bằng chứng: run JSON, log, ảnh chụp.
-
--
+1. **Tool list càng dài, context chọn tool càng nhiễu.** Khi thêm tool / mô tả dài, model dễ gọi thừa hoặc gọi tool nguồn đã bỏ. Nhóm xử lý bằng description “khi nào dùng / không dùng”, rule prompt bỏ nguồn cũ (v8), và không đăng ký tool phụ (`rank_sources`, `cite`) vào `TOOL_FUNCTIONS`/`tools.yaml` để model không thấy.
+2. **Model tự ý thi hành thay vì tuân thủ boundary.** Baseline hay `send` luôn hoặc đoán handle/URL. Fix bằng sequence xác nhận cứng trong prompt + `confirmed=true` trong declaration, rồi đo lại từng version; case còn sót được bắt bằng eval group (G05) và base multiturn.
 
 ## 6. Tổng hợp đóng góp
 
 Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEAM.md) và các báo cáo cá nhân `report/team/MSSV_HoTen.md`.
 
+- Duy — prompt / versioning giả thuyết
+- Nhân — `compare_sources` + unit test / test challenge
+- Hưng — eval group 10 case, UI + ngrok, report + transcript
+
 ## 7. Hạn chế và hướng cải thiện — B6. Reflection
 
-- Fix nào thuộc `system_prompt.md`?
-- Fix nào thuộc `tools.yaml`?
-- Failure nào cần review thủ công thay vì chấm tự động?
-- Nếu có thêm một vòng, nhóm sẽ thử giả thuyết nào?
+- **Fix thuộc `system_prompt.md`:** scope research, cấm đoán handle/URL, sequence confirm trước send, bỏ tool nguồn đã abandon, routing `compare_sources`.
+- **Fix thuộc `tools.yaml`:** description khi dùng/không dùng, convention args (`topic`, `timeframe`, `search_type`), boundary `send`/`confirmed`.
+- **Failure cần review thủ công:** câu trả lời “nghe hay” nhưng nguồn yếu; parallel tool đúng intent nhưng args lệch nhẹ; hành vi live chat ngoài eval schema.
+- **Nếu thêm một vòng:** bổ sung transcript live đủ 3 scenario (lookup thường / thiếu info → clarify / confirm → send Telegram thật), và thử rút gọn tool descriptions để giảm nhiễu khi list tool lớn.
 
 ## 8. Tài liệu tham khảo
 
--
+- [CHECKPOINTS.md](../../CHECKPOINTS.md), [RUBRIC.md](../../RUBRIC.md), [SUBMISSION.md](../../SUBMISSION.md)
+- `starter_v0/artifacts/version_log.csv`, `starter_v0/artifacts/system_prompt.md`, `starter_v0/artifacts/tools.yaml`
+- Run: `starter_v0/runs/v0_B_base_*.json` … `v9_B_base_*.json`, `v8_B_group_*.json`
+- Transcript: `starter_v0/transcripts/v9_openrouter_20261110T221843414946.transcript.json`
