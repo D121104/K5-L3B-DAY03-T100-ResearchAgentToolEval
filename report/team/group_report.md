@@ -14,7 +14,7 @@
   - Nguyễn Minh Nhân — tools / unit test ([`compare_sources`](../../starter_v0/tools/compare_sources/tool.py))
   - Trần Cảnh Hưng — eval nhóm, UI, báo cáo
 - Provider/model dùng cho v0–v9: `openrouter` / `openai/gpt-4o-mini`
-- Repo / nhánh / commit chốt: [K5-L3B-DAY03-T100-ResearchAgentToolEval](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval) · `main` · [`22da5fd`](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval/commit/22da5fd)
+- Repo / nhánh / commit chốt: [K5-L3B-DAY03-T100-ResearchAgentToolEval](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval) · `main` · [`6e50b55`](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval/commit/6e50b55)
 
 ## 2. Mục tiêu và cách tiếp cận — PHẦN A: Giới thiệu agent
 
@@ -185,4 +185,4 @@ Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEA
 - [`version_log.csv`](../../starter_v0/artifacts/version_log.csv), [`system_prompt.md`](../../starter_v0/artifacts/system_prompt.md), [`tools.yaml`](../../starter_v0/artifacts/tools.yaml)
 - Run ví dụ: [v0](../../starter_v0/runs/v0_B_base_openrouter_20261110T172803513266.json), [v9](../../starter_v0/runs/v9_B_base_openrouter_20261110T192431461621.json), [group](../../starter_v0/runs/v8_B_group_openrouter_20261110T192326583151.json)
 - Transcript: [`v9_openrouter_...221843....transcript.json`](../../starter_v0/transcripts/v9_openrouter_20261110T221843414946.transcript.json)
-- Commit chốt: [`22da5fd`](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval/commit/22da5fd)
+- Commit chốt: [`6e50b55`](https://github.com/D121104/K5-L3B-DAY03-T100-ResearchAgentToolEval/commit/6e50b55)
