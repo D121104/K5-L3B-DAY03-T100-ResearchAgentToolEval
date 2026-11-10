@@ -16,32 +16,57 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Hỏi lại khi thiếu thông tin hoặc xin xác nhận trước khi gửi/đăng. Với yêu cầu gửi/đăng ban đầu, hỏi xác nhận bằng response_type=yes_no và chưa gọi send; xác nhận này không cho phép gửi nội dung chưa biết. Thiếu tài khoản hoặc URL thì dùng response_type=text."
+    description: >-
+      Hỏi người dùng khi thiếu thông tin hoặc cần xác nhận hành động.
+      QUY TẮC ƯU TIÊN:
+      Nếu yêu cầu có hành động gửi, đăng hoặc xuất bản nội dung
+      ra bên ngoài, phải gọi clarify với response_type=yes_no
+      trước tiên, kể cả khi nội dung được nhắc đến chưa có
+      trong ngữ cảnh.
+      Không dùng response_type=text cho bước xác nhận hành động gửi/đăng.
+      Chỉ dùng response_type=text để hỏi thông tin còn thiếu
+      trong các yêu cầu không liên quan đến gửi/đăng.
+      Không gọi send trước khi được xác nhận.
     parameters:
       type: object
       properties:
-        question: {type: string, default: "", description: "Câu hỏi"}
-        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Phải truyền rõ: yes_no khi xin xác nhận gửi/đăng; text khi hỏi tài khoản hoặc URL còn thiếu; choice khi chọn trong options. Không dùng mặc định text cho câu hỏi xác nhận."}
-        options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
-      required: [question]
+        question:
+          type: string
+          default: ""
+          description: "Câu hỏi rõ ràng gửi đến người dùng."
+        response_type:
+          type: string
+          enum: [text, yes_no, choice]
+          description: >-
+            yes_no: bắt buộc cho yêu cầu gửi/đăng/xuất bản,
+            kể cả khi nội dung chưa được cung cấp.
+            text: hỏi thông tin còn thiếu trong các yêu cầu khác.
+            choice: chọn từ danh sách options.
+        options:
+          type: array
+          default: []
+          items:
+            type: string
+          description: "Danh sách lựa chọn, chỉ dùng khi response_type=choice."
+      required: [question, response_type]
 
   - name: timeline
-    description: "Lấy các bài đăng gần đây."
+    description: "Lấy các bài đăng gần đây của một tài khoản X/Twitter đã xác định.Dùng khi người dùng yêu cầu xem bài đăng của tài khoản cụ thể.Không dùng để tìm bài đăng theo chủ đề hoặc tìm thông tin trên web."
     parameters:
       type: object
       properties:
-        screenname: {type: string, default: "", description: "Tên tài khoản"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        screenname: {type: string, default: "", description: "Handle X/Twitter không có ký tự @. Ví dụ: Sam Altman → sama; Elon Musk → elonmusk. Không truyền tên hiển thị hoặc URL."}
+        limit: {type: integer, default: 5, description: "Số tweet cần lấy. Nếu người dùng yêu cầu 10 tweet thì truyền limit=10; nếu không chỉ định thì mặc định 5."}
       required: [screenname]
 
   - name: social_search
-    description: "Tìm trên mạng xã hội."
+    description: "Tìm bài đăng công khai trên X/Twitter theo từ khóa hoặc chủ đề.Dùng khi người dùng yêu cầu tìm tweet theo chủ đề. Không dùng để lấy timeline của một tài khoản cụ thể hoặc tìm bài báo web."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Cách sắp xếp"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        query: {type: string, default: "", description: "Từ khóa hoặc chủ đề tìm kiếm tweet, giữ đúng nội dung người dùng yêu cầu."}
+        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Top khi yêu cầu tweet phổ biến/nổi bật/top; Latest khi yêu cầu tweet mới nhất/gần đây. Không dùng Top cho yêu cầu mới nhất."}
+        limit: {type: integer, default: 5, description: "Số tweet cần tìm; mặc định 5 nếu không được chỉ định."}
       required: [query]
 
   - name: lookup
@@ -56,7 +81,7 @@ tools:
       required: [query]
 
   - name: fetch
-    description: "Lấy nội dung từ một địa chỉ."
+    description: "Đọc nội dung một URL cụ thể đã được cung cấp hoặc tìm thấy. Dùng khi cần đọc hoặc tóm tắt nội dung trang web.Không dùng khi chưa có URL hoặc khi cần tìm kiếm nhiều trang."
     parameters:
       type: object
       properties:
@@ -64,7 +89,7 @@ tools:
       required: [url]
 
   - name: format
-    description: "Trình bày dữ liệu đã có thành văn bản."
+    description: "Chuyển các items đã thu thập thành văn bản theo template. Dùng khi người dùng yêu cầu tổng hợp hoặc trình bày dữ liệu đã có. Không dùng để tìm kiếm, đọc URL hoặc so sánh dữ liệu."
     parameters:
       type: object
       properties:
@@ -86,16 +111,30 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: >-
+      Gửi hoặc đăng nội dung ra bên ngoài.
+      Đây là hành động có side effect và cần xác nhận trước khi thực hiện.
+      Không gọi send ngay khi người dùng lần đầu yêu cầu gửi hoặc đăng.
+      Trước tiên phải dùng clarify với response_type=yes_no để xin xác nhận
+      chính nội dung dự định gửi.
+      Chỉ gọi send khi người dùng đã xác nhận rõ ràng nội dung đó.
+      Nếu nội dung thay đổi sau xác nhận, phải xin xác nhận lại.
+      Không dùng send để trả lời chat thông thường.
     parameters:
       type: object
       properties:
-        text: {type: string, default: "", description: "Nội dung"}
-        confirmed: {type: boolean, default: false, description: "Cờ xác nhận"}
+        text:
+          type: string
+          default: ""
+          description: "Nội dung chính xác đã được người dùng xác nhận để gửi."
+        confirmed:
+          type: boolean
+          default: false
+          description: "Chỉ đặt true sau khi người dùng đã xác nhận rõ nội dung gửi. Không tự đặt true từ yêu cầu gửi ban đầu."
       required: [text]
 
   - name: policy
-    description: "Tìm trong tài liệu nội bộ."
+    description: "Tra cứu chính sách và quy định trong tài liệu nội bộ. Dùng khi người dùng hỏi về quy tắc sử dụng công cụ, trích dẫn nguồn, bảo mật hoặc xuất bản. Không dùng để tìm tin tức hoặc thông tin công khai trên web."
     parameters:
       type: object
       properties:
@@ -105,21 +144,47 @@ tools:
       required: [query]
 
   - name: papers
-    description: "Tìm bài báo khoa học."
+    description: "Tìm bài báo khoa học theo từ khóa nghiên cứu. Dùng khi người dùng muốn tìm paper hoặc tài liệu học thuật.Không dùng để đọc toàn văn một paper đã có ID hoặc URL."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        max_results: {type: integer, default: 5, description: "Số lượng"}
-        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sắp xếp"}
+        query: {type: string, default: "", description: "Từ khóa nghiên cứu để tìm paper; không truyền URL hoặc arXiv ID khi mục tiêu là đọc paper đã biết."}
+        max_results: {type: integer, default: 5, description: "Số paper tối đa cần trả về; mặc định 5."}
+        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "relevance khi tìm paper liên quan nhất; lastUpdatedDate khi cần paper mới cập nhật; submittedDate khi cần paper mới nộp."}
       required: [query]
 
   - name: paper_text
-    description: "Lấy nội dung text của một bài báo."
+    description: "Trích xuất nội dung văn bản từ một paper arXiv. Dùng khi đã biết arXiv ID hoặc URL và cần đọc nội dung. Không dùng để tìm paper mới hoặc đọc trang web thông thường."
     parameters:
       type: object
       properties:
-        arxiv_url: {type: string, default: "", description: "ID hoặc địa chỉ"}
-        max_pages: {type: integer, default: 5, description: "Số trang"}
-        max_chars: {type: integer, default: 8000, description: "Số ký tự"}
+        arxiv_url: {type: string, default: "", description: "ID hoặc URL arXiv cụ thể, ví dụ 1706.03762 hoặc https://arxiv.org/abs/1706.03762. Không tự đoán ID nếu người dùng chưa cung cấp."}
+        max_pages: {type: integer, default: 5, description: "Số trang tối đa cần đọc; mặc định 5."}
+        max_chars: {type: integer, default: 8000, description: "Số ký tự tối đa trích xuất; mặc định 8000."}
       required: [arxiv_url]
+
+  # - name: compare_sources
+  #   description: >-
+  #     So sánh các thuộc tính giữa ít nhất 2 nguồn dữ liệu.
+  #     Dùng khi người dùng yêu cầu đối chiếu thông tin từ nhiều nguồn.
+  #     Không dùng để tìm kiếm, đọc URL hoặc xác minh nguồn nào đúng.
+  #   parameters:
+  #     type: object
+  #     properties:
+  #       sources:
+  #         type: array
+  #         minItems: 2
+  #         description: "Danh sách ít nhất 2 nguồn cần so sánh."
+  #         items:
+  #           type: object
+  #           properties:
+  #             title:
+  #               type: string
+  #               description: "Tên nguồn dữ liệu."
+  #             facts:
+  #               type: object
+  #               description: "Các thuộc tính và giá trị cần so sánh."
+  #               additionalProperties:
+  #                 type: string
+  #           required: [title, facts]
+  #     required: [sources]
