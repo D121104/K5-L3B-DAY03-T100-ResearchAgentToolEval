@@ -3,5 +3,182 @@
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_compare_sources_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "So sánh hai nguồn sau giúp mình: Nguồn Reuters có revenue=10B và users=100M; Nguồn Bloomberg có revenue=12B và users=100M. Đối chiếu các số liệu đó bằng compare_sources.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "compare_sources", "args": {}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Yêu cầu đối chiếu facts đã có sẵn từ ≥2 nguồn → route tới compare_sources, không dùng lookup/fetch."
+      }
+    },
+    {
+      "id": "G02_compare_missing_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "So sánh số liệu giữa hai nguồn giúp mình với compare_sources.",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {"name": "clarify", "args": {"response_type": "text"}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Muốn compare nhưng chưa có nguồn/facts → clarify text, không đoán facts."
+      }
+    },
+    {
+      "id": "G03_policy_not_web",
+      "phase": "B",
+      "suite": "group",
+      "query": "Theo chính sách nội bộ, quy định trích dẫn nguồn khi xuất bản là gì?",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "policy", "args": {}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Hỏi quy định nội bộ về trích dẫn → policy, không dùng lookup."
+      }
+    },
+    {
+      "id": "G04_papers_not_web",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tìm paper khoa học về retrieval-augmented generation trên arXiv.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "papers", "args": {}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Tìm paper học thuật → papers, không route sang lookup hay social_search."
+      }
+    },
+    {
+      "id": "G05_confirm_before_send",
+      "phase": "B",
+      "suite": "group",
+      "query": "Gửi bản tin này lên Telegram giúp mình.",
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {"name": "clarify", "args": {"response_type": "yes_no"}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Yêu cầu gửi lần đầu → clarify yes_no, không gọi send."
+      }
+    },
+    {
+      "id": "G06_compare_after_facts_filled",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "So sánh số liệu hai nguồn giúp mình."},
+        {"role": "user", "content": "Nguồn A: revenue=8B, margin=20%. Nguồn B: revenue=9B, margin=20%."},
+        {"role": "user", "content": "Dùng compare_sources với đúng hai nguồn đó."}
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {"name": "compare_sources", "args": {}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: sau khi đủ 2 nguồn kèm facts, latest turn yêu cầu compare_sources."
+      }
+    },
+    {
+      "id": "G07_carryover_news_topic",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tin Anthropic hôm nay có gì?"},
+        {"role": "user", "content": "Còn về Claude thì sao?"},
+        {"role": "user", "content": "Chỉ tìm Claude thôi, vẫn là tin hôm nay"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {"query": "Claude", "topic": "news", "timeframe": "day"}
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Carry timeframe=day và topic=news khi đổi query sang Claude."
+      }
+    },
+    {
+      "id": "G08_correction_search_type",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tìm tweet mới nhất về Gemini trên Twitter"},
+        {"role": "user", "content": "À không, lấy tweet phổ biến/top đi"},
+        {"role": "user", "content": "Vẫn về Gemini nhé"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {"query": "Gemini", "search_type": "Top"}
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Sửa Latest→Top nhưng giữ query Gemini; không gọi timeline."
+      }
+    },
+    {
+      "id": "G09_paper_text_after_id",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Đọc nội dung paper arXiv giúp mình"},
+        {"role": "user", "content": "ID là 1706.03762"},
+        {"role": "user", "content": "Chỉ đọc đúng paper đó thôi"}
+      ],
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {"name": "paper_text", "args": {"arxiv_url": "1706.03762"}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Multi-turn: sau khi có arXiv ID, latest turn → paper_text đúng ID."
+      }
+    },
+    {
+      "id": "G10_switch_to_compare_sources",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tìm trên web tin về doanh thu OpenAI."},
+        {"role": "user", "content": "Thôi bỏ tìm web. Đây là hai nguồn có sẵn: TechCrunch revenue=13B; TheVerge revenue=11B."},
+        {"role": "user", "content": "Chỉ so sánh hai nguồn đó bằng compare_sources."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "compare_sources", "args": {}}
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Bỏ lookup, chuyển sang compare_sources với facts đã cung cấp."
+      }
+    }
+  ]
 }

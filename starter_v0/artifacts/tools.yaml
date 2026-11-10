@@ -60,7 +60,7 @@ tools:
       required: [screenname]
 
   - name: social_search
-    description: "Tìm bài đăng công khai trên X/Twitter theo từ khóa hoặc chủ đề.Dùng khi người dùng yêu cầu tìm tweet theo chủ đề. Không dùng để lấy timeline của một tài khoản cụ thể hoặc tìm bài báo web."
+    description: "Tìm bài đăng công khai trên X/Twitter theo từ khóa hoặc chủ đề. Dùng khi yêu cầu hiện tại vẫn cần tìm tweet theo chủ đề. Không dùng để lấy timeline của một tài khoản cụ thể, tìm bài báo web, hoặc khi người dùng đã bỏ Twitter/tweet và chuyển sang nguồn khác."
     parameters:
       type: object
       properties:
@@ -70,7 +70,7 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tìm thông tin trên web; không dùng để tìm tweet hoặc đọc một URL đã biết. Khi tìm tin tức phải truyền topic=news và timeframe phù hợp. Nếu yêu cầu cả web và tweet, gọi lookup và social_search với args riêng cho từng nguồn."
+    description: "Tìm thông tin trên web; không dùng để tìm tweet hoặc đọc một URL đã biết. Khi tìm tin tức phải truyền topic=news và timeframe phù hợp. Chỉ gọi thêm social_search khi yêu cầu hiện tại vẫn cần cả web và tweet. Nếu người dùng đã bỏ Twitter/tweet hoặc chuyển sang chỉ tìm web tin tức, chỉ gọi lookup và không gọi social_search."
     parameters:
       type: object
       properties:
@@ -163,28 +163,30 @@ tools:
         max_chars: {type: integer, default: 8000, description: "Số ký tự tối đa trích xuất; mặc định 8000."}
       required: [arxiv_url]
 
-  # - name: compare_sources
-  #   description: >-
-  #     So sánh các thuộc tính giữa ít nhất 2 nguồn dữ liệu.
-  #     Dùng khi người dùng yêu cầu đối chiếu thông tin từ nhiều nguồn.
-  #     Không dùng để tìm kiếm, đọc URL hoặc xác minh nguồn nào đúng.
-  #   parameters:
-  #     type: object
-  #     properties:
-  #       sources:
-  #         type: array
-  #         minItems: 2
-  #         description: "Danh sách ít nhất 2 nguồn cần so sánh."
-  #         items:
-  #           type: object
-  #           properties:
-  #             title:
-  #               type: string
-  #               description: "Tên nguồn dữ liệu."
-  #             facts:
-  #               type: object
-  #               description: "Các thuộc tính và giá trị cần so sánh."
-  #               additionalProperties:
-  #                 type: string
-  #           required: [title, facts]
-  #     required: [sources]
+  - name: compare_sources
+    description: >-
+      So sánh các thuộc tính (facts) giữa ít nhất 2 nguồn đã có sẵn trong yêu cầu.
+      Dùng khi người dùng yêu cầu đối chiếu / so sánh số liệu hoặc thuộc tính
+      từ nhiều nguồn đã được cung cấp.
+      Không dùng để tìm kiếm web, tìm tweet, đọc URL, hay quyết định nguồn nào đúng.
+      Nếu chưa có đủ ít nhất 2 nguồn kèm facts, dùng clarify để hỏi thêm.
+    parameters:
+      type: object
+      properties:
+        sources:
+          type: array
+          minItems: 2
+          description: "Danh sách ít nhất 2 nguồn cần so sánh; mỗi nguồn có title và facts."
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: "Tên nguồn dữ liệu."
+              facts:
+                type: object
+                description: "Các thuộc tính và giá trị cần so sánh."
+                additionalProperties:
+                  type: string
+            required: [title, facts]
+      required: [sources]
