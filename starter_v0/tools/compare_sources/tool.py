@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from typing import Any
@@ -11,21 +10,27 @@ def compare_sources(sources: list[dict] | None = None) -> dict[str, Any]:
         if not isinstance(sources, list) or len(sources) < 2:
             raise ValueError("At least 2 sources are required")
 
-        fields = set().union(
-            *(source["facts"].keys() for source in sources)
-        )
+        normalized: list[dict[str, Any]] = []
+        for index, source in enumerate(sources):
+            if not isinstance(source, dict):
+                raise ValueError(f"Source at index {index} must be an object")
+            if "title" not in source or "facts" not in source:
+                raise ValueError("Each source requires title and facts")
+            if not isinstance(source["facts"], dict):
+                raise TypeError("facts must be an object")
+            normalized.append(source)
 
+        fields = set().union(*(source["facts"].keys() for source in normalized))
         comparisons = []
 
         for field in sorted(fields):
             values = {
                 source["title"]: source["facts"].get(field)
-                for source in sources
+                for source in normalized
             }
+            present = [value for value in values.values() if value is not None]
 
-            present = [v for v in values.values() if v is not None]
-
-            if len(present) < len(sources):
+            if len(present) < len(normalized):
                 status = "missing"
             elif len(set(map(str, present))) == 1:
                 status = "consistent"
@@ -42,9 +47,9 @@ def compare_sources(sources: list[dict] | None = None) -> dict[str, Any]:
             "tool": "compare_sources",
             "comparisons": comparisons,
             "summary": {
-                "consistent": sum(x["status"] == "consistent" for x in comparisons),
-                "different": sum(x["status"] == "different" for x in comparisons),
-                "missing": sum(x["status"] == "missing" for x in comparisons),
+                "consistent": sum(item["status"] == "consistent" for item in comparisons),
+                "different": sum(item["status"] == "different" for item in comparisons),
+                "missing": sum(item["status"] == "missing" for item in comparisons),
             },
         }
 

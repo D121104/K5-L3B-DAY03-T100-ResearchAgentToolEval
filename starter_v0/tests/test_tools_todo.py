@@ -250,3 +250,47 @@ def test_papers_http_failure_returns_error_dict(monkeypatch, fake_http) -> None:
     result = TOOL_FUNCTIONS["papers"](query="research")
     assert len(calls) == 1
     assert result == {"tool": "arxiv_search", "error": "HTTPError", "message": "HTTP 503"}
+
+
+# ---------------- compare_sources (new group tool) ----------------
+
+def test_compare_sources_marks_consistent_different_and_missing() -> None:
+    result = TOOL_FUNCTIONS["compare_sources"](sources=[
+        {"title": "Reuters", "facts": {"revenue": "10B", "users": "100M", "margin": "20%"}},
+        {"title": "Bloomberg", "facts": {"revenue": "12B", "users": "100M"}},
+    ])
+    by_field = {item["field"]: item for item in result["comparisons"]}
+    assert by_field["users"]["status"] == "consistent"
+    assert by_field["revenue"]["status"] == "different"
+    assert by_field["margin"]["status"] == "missing"
+    assert result["summary"] == {"consistent": 1, "different": 1, "missing": 1}
+    assert "error" not in result
+
+
+@pytest.mark.parametrize("sources", [None, [], [{"title": "OnlyOne", "facts": {"a": "1"}}], "not-a-list"])
+def test_compare_sources_rejects_bad_or_insufficient_sources(sources) -> None:
+    result = TOOL_FUNCTIONS["compare_sources"](sources=sources)
+    assert result["tool"] == "compare_sources"
+    assert result["error"] in {"ValueError", "TypeError"}
+    assert "comparisons" not in result
+
+
+def test_compare_sources_bad_facts_type_returns_error_dict() -> None:
+    result = TOOL_FUNCTIONS["compare_sources"](sources=[
+        {"title": "A", "facts": "not-an-object"},
+        {"title": "B", "facts": {"x": "1"}},
+    ])
+    assert result == {
+        "tool": "compare_sources",
+        "error": "TypeError",
+        "message": "facts must be an object",
+    }
+
+
+def test_compare_sources_missing_title_or_facts_returns_error_dict() -> None:
+    result = TOOL_FUNCTIONS["compare_sources"](sources=[
+        {"title": "A"},
+        {"title": "B", "facts": {"x": "1"}},
+    ])
+    assert result["error"] == "ValueError"
+    assert "title and facts" in result["message"]
